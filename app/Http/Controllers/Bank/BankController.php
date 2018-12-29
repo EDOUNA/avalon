@@ -34,6 +34,8 @@ class BankController extends Controller
             }
         }
 
-        return view('bank.transactions', ['transactions' => $transactions]);
+        $categories = new CategoriesController();
+
+        return view('bank.transactions', ['transactions' => $transactions, 'categories' => $categories->listCategories()]);
     }
 }

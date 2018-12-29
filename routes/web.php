@@ -17,5 +17,6 @@ Route::get('/', function () {
 
 Route::group(['namespace' => 'bank'], function () {
     Route::get('/bank/transactions', 'BankController@transactions');
+    Route::post('/bank/transactions/updateCategory', 'TransactionsController@updateCategory');
     Route::get('/bank/categories', 'CategoriesController@index');
 });
