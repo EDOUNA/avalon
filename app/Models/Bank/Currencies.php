@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Bank;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,6 +13,6 @@ class Currencies extends Model
      */
     public function transactions()
     {
-        return $this->belongsTo('App\Models\Transactions', 'currency_id', 'id');
+        return $this->belongsTo('App\Models\Bank\Transactions', 'currency_id', 'id');
     }
 }
