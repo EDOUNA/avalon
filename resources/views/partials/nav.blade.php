@@ -2,19 +2,24 @@
     <div class="sidebar-sticky">
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link active" href="{{ url('/') }}">
+                <a class="nav-link" href="{{ url('/') }}">
                     <span data-feather="home"></span>
                     Dashboard
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{{ url('bank/transactions') }}">
-                    <span data-feather="transactions"></span>
+                    <span data-feather="file"></span>
                     Banktransacties
                 </a>
+                <ul class="nax flex-column">
+                    <li class="nax-item">
+                        <a class="nav-link" href="{{ url('bank/categories') }}">Categorieën</a>
+                    </li>
+                </ul>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="{{ url('meter') }}">
                     <span data-feather="meter"></span>
                     Slimme meter
                 </a>

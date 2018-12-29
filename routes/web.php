@@ -14,3 +14,8 @@
 Route::get('/', function () {
     return view('mainLayout');
 });
+
+Route::group(['namespace' => 'bank'], function () {
+    Route::get('/bank/transactions', 'BankController@transactions');
+    Route::get('/bank/categories', 'CategoriesController@index');
+});
