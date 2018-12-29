@@ -13,9 +13,9 @@
             </thead>
             <tbody>
             @foreach($transactions as $t)
-                <tr>
-                    <td>{{ date('d-m-Y', $t->transaction_date) }}</td>
-                    <td width="7%">
+                <tr style="height: 100px;">
+                    <td style="width: 5%;">{{ date('d-m-Y', strtotime($t->transaction_date)) }}</td>
+                    <td style="width: 5%;">
                         @if($t->amount>0)
                             <span class="text-success">
                                 {{ $t->currencies->symbol }} {{ number_format($t->amount, 2, ',', '.') }}
@@ -26,7 +26,14 @@
                             </span>
                         @endif
                     </td>
-                    <td style="font-size: 11px;">{{ $t->description }}</td>
+                    <td style="font-size: 11px;">
+                        {{ $t->description }}
+                        <div class="clearfix"></div>
+                        <div class="btn-group-sm">
+                            <a href="#" class="btn btn-primary">x</a>
+                            <a href="#" class="btn btn-primary">x</a>
+                        </div>
+                    </td>
                 </tr>
             @endforeach
             </tbody>
