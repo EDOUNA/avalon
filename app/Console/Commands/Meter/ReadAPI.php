@@ -3,6 +3,9 @@
 namespace App\Console\Commands\Meter;
 
 use App\Models\Configurations;
+use App\Models\DeviceMeasurements;
+use App\Models\Devices;
+use App\Models\DeviceTariffs;
 use GuzzleHttp\Client;
 use Illuminate\Console\Command;
 use Log;
@@ -87,7 +90,22 @@ class ReadAPI extends Command
             return false;
         }
 
+        // Try to find the matching device
+        foreach ($prodResult->result as $k => $d) {
+            $device = Devices::where('identifier', $d->idx)->first();
+            $tariff = DeviceTariffs::where(['device_id' => $device->id, 'end_date' => null])->first();
 
+            $counter = explode(' ', $d->CounterToday);
+
+            $newMeasurement = new DeviceMeasurements;
+            $newMeasurement->device_id = $device->id;
+            $newMeasurement->tariff_id = $tariff->id;
+            $newMeasurement->amount = $counter[0];
+            $newMeasurement->json_serialize = json_encode($d);
+            $newMeasurement->save();
+        }
+
+        return true;
     }
 
     /**

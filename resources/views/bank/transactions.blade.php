@@ -14,7 +14,7 @@
             <tbody>
             @foreach($transactions as $t)
                 <tr>
-                    <td>{{ $t->transaction_date }}</td>
+                    <td>{{ date('d-m-Y', $t->transaction_date) }}</td>
                     <td width="7%">
                         @if($t->amount>0)
                             <span class="text-success">
