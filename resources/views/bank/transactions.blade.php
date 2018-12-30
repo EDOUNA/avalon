@@ -11,6 +11,8 @@
             );
 
             $("#tableTransaction").fadeIn('fast');
+
+            updateProgress();
         });
 
         /**
@@ -44,6 +46,8 @@
                     success: function (data, textStatus, jQxhr) {
                         if (textStatus === "success") {
                             $("#tr_" + transactionID).fadeOut('slow');
+                            // Rerun to update the page
+                            updateProgress();
                         }
                     },
                     error: function (jqXhr, textStatus, errorThrown) {
@@ -51,6 +55,32 @@
                     }
                 });
             }, 1000);
+
+        }
+
+        /**
+         * @param transactionID
+         */
+        function toggleEdit(transactionID) {
+            $("#editTable_" + transactionID).slideToggle();
+        }
+
+        function updateProgress() {
+            $.ajax({
+                url: "{{ url('bank/transactions/api/getCategorizedScore') }}",
+                dataType: 'json',
+                type: 'get',
+                contentType: 'application/json',
+                processData: false,
+                success: function (data, textStatus, jQxhr) {
+                    let progressPercentage = ((data.total / data.uncategorized * 100) - 100).toFixed(2);
+                    $("#categoryProgress").css("width", progressPercentage).attr('aria-valuenow', Math.round(progressPercentage));
+                    $("#categoryProgress").text(progressPercentage + "% | no category = " + data.uncategorized);
+                },
+                error: function (jqXhr, textStatus, errorThrown) {
+                    console.log(textStatus);
+                }
+            });
         }
     </script>
     <h2>Banktransacties</h2>
@@ -62,6 +92,13 @@
             @else
                 <a href="{{ url('bank/transactions') }}" class="btn btn-primary">Met categorie</a>
             @endif
+            <div class="float-right" style="width: 50%;">
+                <div class="progress">
+                    <div class="progress-bar" id="categoryProgress" role="progressbar"
+                         aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                    </div>
+                </div>
+            </div>
         </div>
         <hr>
         <table class="table table-striped table-sm table-bordered table-hover table-condensed"
@@ -84,28 +121,51 @@
                             {{ $t->currencies->symbol }} {{ number_format($t->amount, 2, ',', '.') }}
                         </span>
                     </td>
-                    <td style="width: 15%;">
-                        <div class="spinner-border" role="status" style="display: none;"
-                             id="loaderElement_{{ $t->id }}">
-                            <span class="sr-only">Loading...</span>
-                        </div>
-                        <div id="updateElement_"{{ $t->id }}>
-                            <select name="category" id="select_{{ $t->id }}" class="selectable" style="width: 75%;">
-                                <option></option>
-                                @foreach($categories as $c)
-                                    <option value="{{ $c->id }}">{{ $c->description }}</option>
-                                @endforeach
-                            </select>
-                            <a href="javascript:void(0);" onclick="updateCategory({{ $t->id }})"
-                               class="btn btn-primary btn-sm"><i class="fas fa-check-circle"></i></a>
-                        </div>
+                    <td style="width: 10%;">
+
                     </td>
-                    <td style="font-size: 11px;">
-                        {{ $t->description }}
-                        <div class="clearfix"></div>
-                        <div class="btn-group-sm" style="margin-bottom: -1px;">
-                            <a href="#" class="btn btn-primary">x</a>
-                            <a href="#" class="btn btn-primary">x</a>
+                    <td style="font-size: 11px;" class="hidden-sm">
+                        <table class="table">
+                            {{ $t->description }}
+                        </table>
+                        <table class="table">
+                            <div class="clearfix"></div>
+                            <div class="btn-group btn-group-sm">
+                                <a href="javascript:void(0);" onclick="toggleEdit({{ $t->id }})"
+                                   class="btn btn-primary btn-sm">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </a>
+                                <a href="{{ url('bank/transactions/find/'.$t->id) }}" class="btn btn-primary btn-sm">
+                                    <i class="fas fa-search"></i>
+                                </a>
+                                <a href="{{ url('bank/transactions/deactivate/'.$t->id) }}"
+                                   class="btn btn-danger btn-sm">
+                                    <i class="fas fa-trash-alt"></i>
+                                </a>
+                            </div>
+                        </table>
+                        <div id="editTable_{{ $t->id }}" style="display: none;">
+                            <table class="table table-striped table-sm table-bordered table-hover table-condensed">
+                                <tr>
+                                    <td>
+                                        <div class="spinner-border" role="status" style="display: none;"
+                                             id="loaderElement_{{ $t->id }}">
+                                            <span class="sr-only">Loading...</span>
+                                        </div>
+                                        <div id="updateElement_"{{ $t->id }}>
+                                            <select name="category" id="select_{{ $t->id }}" class="selectable"
+                                                    style="width: 75%;">
+                                                <option></option>
+                                                @foreach($categories as $c)
+                                                    <option value="{{ $c->id }}">{{ $c->description }}</option>
+                                                @endforeach
+                                            </select>
+                                            <a href="javascript:void(0);" onclick="updateCategory({{ $t->id }})"
+                                               class="btn btn-primary btn-sm"><i class="fas fa-check-circle"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
                         </div>
                     </td>
                     <td>

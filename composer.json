@@ -14,6 +14,7 @@
         "guzzlehttp/guzzle": "~6.0",
         "kingsquare/php-mt940": "^1.4",
         "laravel/framework": "5.7.*",
+        "laravel/scout": "^6.1",
         "laravel/tinker": "^1.0"
     },
     "require-dev": {

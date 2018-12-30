@@ -24,4 +24,15 @@ class TransactionsController extends Controller
 
         return response()->json(['status' => 'OK']);
     }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getCategorizedScore()
+    {
+        $noCategory = Transactions::whereNull('category_id')->count();
+        $totalTransactions = Transactions::count();
+
+        return response()->json(['uncategorized' => $noCategory, 'total' => $totalTransactions]);
+    }
 }
