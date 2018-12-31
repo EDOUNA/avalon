@@ -71,7 +71,7 @@
                     processData: false,
                     success: function (data, textStatus, jQxhr) {
                         $.each(data.utilities, function (index, value) {
-                            if (index === 'electricty') {
+                            if (index === 'electricity') {
                                 addData(energyChart, data.serverTime, data.utilities[index]);
                             } else if (index === 'gas') {
                                 addData(gasChart, data.serverTime, data.utilities[index]);

@@ -74,7 +74,7 @@ class MeterController extends Controller
             $msg[$deviceObject->deviceTypes->description] = $counter;
 
             // Create a new measurement log
-            $device->createMeasurement();
+            $device->createMeasurement($deviceObject->id, $r);
         }
 
         $time = Carbon::now();
