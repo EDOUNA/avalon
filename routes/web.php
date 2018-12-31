@@ -28,4 +28,5 @@ Route::group(['namespace' => 'meter'], function () {
     Route::get('/meter/liveUI', 'MeterController@liveUI');
 
     Route::get('/meter/api/getDomoticzData', 'MeterController@getDomoticzData');
+    Route::get('/meter/api/getMeasurements/{deviceID}', 'DevicesController@getMeasurements');
 });

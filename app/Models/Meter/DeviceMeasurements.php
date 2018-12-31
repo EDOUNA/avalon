@@ -7,4 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class DeviceMeasurements extends Model
 {
     protected $table = 'device_measurements';
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function deviceTariffs()
+    {
+        return $this->hasOne('App\Models\Meter\DeviceTariffs', 'id', 'tariff_id');
+    }
 }

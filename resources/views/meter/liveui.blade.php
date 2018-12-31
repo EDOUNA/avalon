@@ -2,7 +2,8 @@
 @section('content')
     <script type="text/javascript">
         const chartInterval = {{ $chartInterval }};
-        const internalAPI = "{{ url('meter/api/getDomoticzData') }}";
+        const internalDomoticzAPI = "{{ url('meter/api/getDomoticzData') }}";
+        const internalGetMeasurementsAPI = "{{ url('meter/api/getMeasurements') }}";
         $(document).ready(function () {
             let energyChart = new Chart($("#energyChart"), {
                 type: 'line',
@@ -60,11 +61,14 @@
 
             window.setInterval(function () {
                 updateCharts();
+
+                getMeasurements(1);
+                getMeasurements(3);
             }, chartInterval);
 
             function updateCharts() {
                 $.ajax({
-                    url: internalAPI,
+                    url: internalDomoticzAPI,
                     dataType: 'json',
                     type: 'get',
                     contentType: 'application/json',
@@ -93,10 +97,76 @@
             }
         });
 
+        function getMeasurements(deviceID) {
+            $.ajax({
+                url: internalGetMeasurementsAPI + "/" + deviceID,
+                dataType: 'json',
+                type: 'get',
+                contentType: 'application/json',
+                processData: false,
+                success: function (data, textStatus, jQxhr) {
+                    const deviceType = data.device.device_types.description;
+                    const elementID = 'tbody_' + deviceType;
+                    $("#" + elementID + " tr").remove();
+                    $.each(data.measurement, function (index, value) {
+                        let row = "<tr>" +
+                            "<td>" + value.amount + "</td>" +
+                            "<td>" + value.usedEuro + "</td>" +
+                            "<td>" + value.timestamp.date + "</td>" +
+                            "</tr>";
+                        $("#" + elementID).append(row);
+                    });
+                },
+                error: function (jqXhr, textStatus, errorThrown) {
+                    console.log(textStatus);
+                }
+            });
+        }
 
     </script>
     <h2>Live monitor</h2>
+    <hr>
 
-    <canvas id="energyChart" width="400" height="100"></canvas>
-    <canvas id="gasChart" width="400" height="100"></canvas>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-9">
+                <canvas id="energyChart" width="300" height="100"></canvas>
+            </div>
+            <div class="col-3">
+                <table class="table table-bordered table-striped table-hover table-sm" style="font-size: 11px;"
+                       id="table_electricity">
+                    <thead>
+                    <tr>
+                        <th>kWh</th>
+                        <th>€</th>
+                        <th>Timestamp</th>
+                    </tr>
+                    </thead>
+                    <tbody id="tbody_electricity">
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-9">
+                <canvas id="gasChart" width="300" height="100"></canvas>
+            </div>
+            <div class="col-3">
+                <table class="table table-bordered table-striped table-hover table-sm" style="font-size: 11px;"
+                       id="table_gas">
+                    <thead>
+                    <tr>
+                        <th>kWh</th>
+                        <th>€</th>
+                        <th>Timestamp</th>
+                    </tr>
+                    </thead>
+                    <tbody id="tbody_gas">
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 @endsection

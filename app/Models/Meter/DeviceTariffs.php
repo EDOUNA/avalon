@@ -15,4 +15,12 @@ class DeviceTariffs extends Model
     {
         return $this->belongsTo('App\Models\Meter\Devices', 'tariff_id', 'id');
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function deviceMeasurements()
+    {
+        return $this->belongsTo('App\Models\Meter\DeviceMeasurements', 'tariff_id', 'id');
+    }
 }
