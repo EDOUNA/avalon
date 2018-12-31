@@ -104,7 +104,7 @@ class ReadAPI extends Command
             $newMeasurement->json_serialize = json_encode($d);
             $newMeasurement->save();
         }
-
+        
         return true;
     }
 

@@ -52,19 +52,29 @@ class MeterController extends Controller
             return response()->json(['status' => 'Could not find results.'], 500);
         }
 
-        $msg = [];
+        $msg = []; // Blank array for later usage
         foreach ($prodResult->result as $r) {
+            if (!isset($r->idx)) {
+                Log::debug('Unable to find the IDX attribute.');
+                return response()->json(['status' => 'Unable to find the IDX attribute.'], 500);
+            }
+
+            // Get the device properties
+            $device = new DevicesController();
+            $deviceObject = $device->findDeviceIDByIDX($r->idx);
+
+            if (false === $device) {
+                Log::debug('Unable to find a proper device for IDX: ' . $r->idx);
+                return response()->json(['status' => 'Unable to find a proper device for IDX: ' . $r->idx], 500);
+            }
+
             $counter = explode(' ', $r->CounterToday);
             $counter = $counter[0];
-            if ($r->idx == 2) {
-                $msg['energy'] = $counter;
-                continue;
-            } elseif ($r->idx == 6) {
-                $msg['gas'] = $counter;
-                continue;
-            }
-            Log::debug('Unknown IDX pattern.');
-            return response()->json(['status' => 'Application should not end up here.'], 500);
+
+            $msg[$deviceObject->deviceTypes->description] = $counter;
+
+            // Create a new measurement log
+            $device->createMeasurement();
         }
 
         $time = Carbon::now();
