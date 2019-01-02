@@ -109,10 +109,20 @@
                     const elementID = 'tbody_' + deviceType;
                     $("#" + elementID + " tr").remove();
                     $.each(data.measurement, function (index, value) {
+                        let usedInEuro = 0;
+                        let usedInComparison = 0;
+                        if (value.usedInComparisonEuro !== null && value.usedInComparisonEuro > 0) {
+                            usedInEuro = '(<span class="text-danger">' + value.usedInComparisonEuro + '</span>)';
+                        }
+
+                        if (value.usedInComparison !== null && value.usedInComparison > 0) {
+                            usedInComparison = '(<span class="text-danger">' + value.usedInComparison + '</span>)';
+                        }
+
                         let row = "<tr>" +
-                            "<td>" + value.amount + "</td>" +
-                            "<td>" + value.usedEuro + "</td>" +
-                            "<td>" + value.timestamp.date + "</td>" +
+                            "<td>" + value.amount + " " + usedInComparison + "</td>" +
+                            "<td>&euro; " + value.usedEuro + " " + usedInEuro + "</td>" +
+                            "<td>" + moment(value.timestamp.date).format('DD-MM-YYYY H:mm:ss') + "</td>" +
                             "</tr>";
                         $("#" + elementID).append(row);
                     });
@@ -157,7 +167,7 @@
                        id="table_gas">
                     <thead>
                     <tr>
-                        <th>kWh</th>
+                        <th>m3</th>
                         <th>€</th>
                         <th>Timestamp</th>
                     </tr>
