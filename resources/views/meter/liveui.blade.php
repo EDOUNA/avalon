@@ -199,7 +199,7 @@
                     <tr>
                         <th>m3</th>
                         <th>Tarief
-                            <div id="tariff_electricity"></div>
+                            <div id="tariff_gas"></div>
                         </th>
                         <th>Timestamp</th>
                     </tr>

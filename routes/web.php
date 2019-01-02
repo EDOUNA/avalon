@@ -30,4 +30,5 @@ Route::group(['namespace' => 'meter'], function () {
     Route::get('/meter/api/getDomoticzData', 'MeterController@getDomoticzData');
     Route::get('/meter/api/getMeasurements/{deviceID}', 'DevicesController@getMeasurements');
     Route::get('/meter/api/getActualTariffs/{deviceID}', 'DevicesController@getActualTariffs');
+    Route::get('/meter/api/getDailyBudget', 'DevicesController@getDailyBudget');
 });

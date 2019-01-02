@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Configurations;
 use App\Models\Meter\DeviceMeasurements;
 use App\Models\Meter\Devices;
-use App\Models\Meter\DeviceTariffs;
 use Log;
 
 class DevicesController extends Controller
@@ -61,7 +60,9 @@ class DevicesController extends Controller
      */
     public function findTariffByDeviceID(Int $deviceID)
     {
-        $tariff = DeviceTariffs::with('devices')->whereNull('end_date')->first();
+        $tariff = Devices::with(['deviceTariffs' => function ($tariff) {
+            $tariff->whereNull('end_date');
+        }])->where('id', $deviceID)->first();
         if (null === $tariff) {
             Log::debug('Could not find an open tariff for deviceID: ' . $deviceID);
             return false;
@@ -84,11 +85,16 @@ class DevicesController extends Controller
             $threshold = $configuration->parameter;
         }
 
-        $measurements = DeviceMeasurements::with('deviceTariffs')
-            ->where('device_id', $deviceID)
-            ->orderBy('created_at', 'desc')
-            ->limit($threshold)
-            ->get();
+        /**
+         * $measurements = DeviceMeasurements::with('deviceTariffs')
+         * ->where('device_id', $deviceID)
+         * ->orderBy('created_at', 'desc')
+         * ->limit($threshold)
+         * ->get();
+         */
+
+        $measurements = DeviceMeasurements::with('devices', 'deviceTariffs')
+            ->where('device_id', $deviceID)->limit($threshold)->orderBy('created_at', 'desc')->get();
 
         // Set device settings
         $outputMsg['device'] = $device;
@@ -132,5 +138,33 @@ class DevicesController extends Controller
         }
 
         return response()->json($tariff);
+    }
+
+    public function getDailyBudget()
+    {
+        $monthlyBudget = Configurations::where('setting', 'energy_monhtly_budget')->first();
+        if (null === $monthlyBudget) {
+            Log::Debug('Could not retrieve the monthly budget configuration parameter.');
+            return response()->json(['status' => 'Could not retrieve the monthly budget configuration parameter.'], 500);
+        }
+
+        $monthlyBudget = $monthlyBudget->parameter;
+        $daysInMonth = cal_days_in_month(CAL_GREGORIAN, date('m'), date('Y'));
+        $budgetPerDay = ($monthlyBudget / $daysInMonth);
+        $currentDay = date('d');
+
+        $msg = [];
+        $msg['daysRemaining'] = ($daysInMonth - $currentDay);
+        $msg['monthlyBudget'] = $monthlyBudget;
+        $msg['dailyBudget'] = $budgetPerDay;
+
+        $measurements = DeviceMeasurements::with(['devices' => function ($device) {
+            $device->where('active', 1);
+        }], 'deviceTariffs')->orderBy('created_at', 'desc')->get();
+
+        $msg['measurements'] = $measurements;
+
+
+        return response()->json($msg);
     }
 }
