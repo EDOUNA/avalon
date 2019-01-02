@@ -15,4 +15,12 @@ class Devices extends Model
     {
         return $this->hasOne('App\Models\Meter\DeviceTypes', 'id', 'device_type_id');
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function deviceTariffs()
+    {
+        return $this->hasOne('App\Models\Meter\DeviceTariffs', 'id', 'tariff_id');
+    }
 }

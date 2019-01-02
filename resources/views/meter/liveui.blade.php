@@ -98,6 +98,8 @@
         });
 
         function getMeasurements(deviceID) {
+            get
+
             $.ajax({
                 url: internalGetMeasurementsAPI + "/" + deviceID,
                 dataType: 'json',

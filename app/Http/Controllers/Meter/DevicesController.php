@@ -61,7 +61,7 @@ class DevicesController extends Controller
      */
     public function findTariffByDeviceID(Int $deviceID)
     {
-        $tariff = DeviceTariffs::where(['device_id' => $deviceID, 'end_date' => null])->first();
+        $tariff = DeviceTariffs::with('devices')->whereNull('end_date')->first();
         if (null === $tariff) {
             Log::debug('Could not find an open tariff for deviceID: ' . $deviceID);
             return false;
@@ -122,7 +122,11 @@ class DevicesController extends Controller
             return response()->json(['status' => 'No deviceID found.'], 500);
         }
 
-        $tariff = DeviceTariffs::with('currencies')->where('device_id', $deviceID)->whereNull('end_date')->first();
+        $tariff = DeviceTariffs::with('currencies')
+            ->with(['devices' => function ($devices) use ($deviceID) {
+                $devices->where('devices.id', $deviceID)->with('deviceTypes');
+            }])
+            ->whereNull('end_date')->first();
         if (null === $tariff) {
             Log::debug('Could not find an actual tariff for deviceID: ' . $deviceID);
             return response()->json(['status' => 'Could not find an actual tariff for deviceID: ' . $deviceID], 500);
