@@ -15,4 +15,12 @@ class Currencies extends Model
     {
         return $this->belongsTo('App\Models\Bank\Transactions', 'currency_id', 'id');
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function deviceTariffs()
+    {
+        return $this->belongsTo('App\Models\Meter\DeviceTariffs', 'currency_id', 'id');
+    }
 }

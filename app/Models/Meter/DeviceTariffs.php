@@ -23,4 +23,12 @@ class DeviceTariffs extends Model
     {
         return $this->belongsTo('App\Models\Meter\DeviceMeasurements', 'tariff_id', 'id');
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function currencies()
+    {
+        return $this->hasOne('App\Models\Bank\Currencies', 'id', 'currency_id');
+    }
 }
