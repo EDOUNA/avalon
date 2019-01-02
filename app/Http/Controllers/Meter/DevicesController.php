@@ -122,11 +122,10 @@ class DevicesController extends Controller
             return response()->json(['status' => 'No deviceID found.'], 500);
         }
 
-        $tariff = DeviceTariffs::with('currencies')
-            ->with(['devices' => function ($devices) use ($deviceID) {
-                $devices->where('devices.id', $deviceID)->with('deviceTypes');
-            }])
-            ->whereNull('end_date')->first();
+        $tariff = Devices::with(['deviceTariffs' => function ($tariffDetail) {
+            $tariffDetail->with('currencies');
+        }])->with('deviceTypes')
+            ->where('id', $deviceID)->first();
         if (null === $tariff) {
             Log::debug('Could not find an actual tariff for deviceID: ' . $deviceID);
             return response()->json(['status' => 'Could not find an actual tariff for deviceID: ' . $deviceID], 500);

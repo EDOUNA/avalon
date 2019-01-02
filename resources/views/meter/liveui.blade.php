@@ -4,6 +4,8 @@
         const chartInterval = {{ $chartInterval }};
         const internalDomoticzAPI = "{{ url('meter/api/getDomoticzData') }}";
         const internalGetMeasurementsAPI = "{{ url('meter/api/getMeasurements') }}";
+        const internalGetActualTariffsAPI = "{{ url('meter/api/getActualTariffs') }}";
+
         $(document).ready(function () {
             let energyChart = new Chart($("#energyChart"), {
                 type: 'line',
@@ -59,12 +61,19 @@
                 }
             });
 
-            window.setInterval(function () {
-                updateCharts();
+            // Initial set-up
+            runScript();
 
+            window.setInterval(function () {
+                runScript();
+
+            }, chartInterval);
+
+            function runScript() {
+                updateCharts();
                 getMeasurements(1);
                 getMeasurements(3);
-            }, chartInterval);
+            }
 
             function updateCharts() {
                 $.ajax({
@@ -98,7 +107,7 @@
         });
 
         function getMeasurements(deviceID) {
-
+            getActualTariffs(deviceID);
             $.ajax({
                 url: internalGetMeasurementsAPI + "/" + deviceID,
                 dataType: 'json',
@@ -110,8 +119,8 @@
                     const elementID = 'tbody_' + deviceType;
                     $("#" + elementID + " tr").remove();
                     $.each(data.measurement, function (index, value) {
-                        let usedInEuro = 0;
-                        let usedInComparison = 0;
+                        let usedInEuro = "";
+                        let usedInComparison = "";
                         if (value.usedInComparisonEuro !== null && value.usedInComparisonEuro > 0) {
                             usedInEuro = '(<span class="text-danger">' + value.usedInComparisonEuro + '</span>)';
                         }
@@ -134,6 +143,24 @@
             });
         }
 
+        function getActualTariffs(deviceID) {
+            $.ajax({
+                url: internalGetActualTariffsAPI + "/" + deviceID,
+                dataType: 'json',
+                type: 'get',
+                contentType: 'application/json',
+                processData: false,
+                success: function (data, textStatus, jQxhr) {
+                    const deviceType = data.device_types.description;
+                    const elementID = 'tariff_' + deviceType;
+                    const tariff = data.device_tariffs.currencies.symbol + " " + parseFloat(data.device_tariffs.amount);
+                    $("#" + elementID).text(tariff);
+                },
+                error: function (jqXhr, textStatus, errorThrown) {
+                    console.log(textStatus);
+                }
+            });
+        }
     </script>
     <h2>Live monitor</h2>
     <hr>
@@ -149,7 +176,9 @@
                     <thead>
                     <tr>
                         <th>kWh</th>
-                        <th>€</th>
+                        <th>Tarief
+                            <div id="tariff_electricity"></div>
+                        </th>
                         <th>Timestamp</th>
                     </tr>
                     </thead>
@@ -169,7 +198,9 @@
                     <thead>
                     <tr>
                         <th>m3</th>
-                        <th>€</th>
+                        <th>Tarief
+                            <div id="tariff_electricity"></div>
+                        </th>
                         <th>Timestamp</th>
                     </tr>
                     </thead>

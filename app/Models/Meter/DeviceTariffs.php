@@ -9,11 +9,11 @@ class DeviceTariffs extends Model
     protected $table = 'device_tariffs';
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function devices()
     {
-        return $this->hasOne('App\Models\Meter\Devices', 'tariff_id', 'id');
+        return $this->belongsTo('App\Models\Meter\Devices', 'tariff_id', 'id');
     }
 
     /**
