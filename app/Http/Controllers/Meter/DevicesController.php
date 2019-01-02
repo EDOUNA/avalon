@@ -7,7 +7,6 @@ use App\Models\Configurations;
 use App\Models\Meter\DeviceMeasurements;
 use App\Models\Meter\Devices;
 use App\Models\Meter\DeviceTariffs;
-use Carbon\Carbon;
 use Log;
 
 class DevicesController extends Controller
@@ -95,7 +94,6 @@ class DevicesController extends Controller
         $outputMsg['device'] = $device;
 
         foreach ($measurements as $k => $m) {
-            $time = new Carbon();
             $outputMsg['measurement'][$k]['timestamp'] = $m->created_at;
             $outputMsg['measurement'][$k]['amount'] = round($m->amount, 4);
             $outputMsg['measurement'][$k]['usedEuro'] = round(($m->amount * $m->deviceTariffs->amount), 4);
@@ -110,5 +108,26 @@ class DevicesController extends Controller
         }
 
         return response()->json($outputMsg);
+    }
+
+    /**
+     * @param Int $deviceID
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getActualTariffs(Int $deviceID)
+    {
+        $device = Devices::where('id', $deviceID)->first();
+        if (null === $device) {
+            Log::debug('Could not find deviceID: ' . $deviceID);
+            return response()->json(['status' => 'No deviceID found.'], 500);
+        }
+
+        $tariff = DeviceTariffs::with('currencies')->where('device_id', $deviceID)->whereNull('end_date')->first();
+        if (null === $tariff) {
+            Log::debug('Could not find an actual tariff for deviceID: ' . $deviceID);
+            return response()->json(['status' => 'Could not find an actual tariff for deviceID: ' . $deviceID], 500);
+        }
+
+        return response()->json($tariff);
     }
 }
