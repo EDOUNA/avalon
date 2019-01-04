@@ -186,7 +186,6 @@
 
                         </tbody>
                     </table>
-
                     <canvas id="gasChart" width="300" height="100"></canvas>
                     <table class="table table-bordered table-striped table-hover table-sm" style="font-size: 11px;"
                            id="table_gas">
@@ -203,7 +202,6 @@
 
                         </tbody>
                     </table>
-
                 </div>
             </div>
         </div>
