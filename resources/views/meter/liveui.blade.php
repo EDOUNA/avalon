@@ -163,52 +163,48 @@
             });
         }
     </script>
-    <h2>Live monitor</h2>
-    <hr>
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Live UI</h3>
+                </div>
+                <div class="box-body">
+                    <canvas id="energyChart" width="300" height="100"></canvas>
+                    <table class="table table-bordered table-striped table-hover table-sm" style="font-size: 11px;"
+                           id="table_electricity">
+                        <thead>
+                        <tr>
+                            <th>kWh</th>
+                            <th>Tarief
+                                <div id="tariff_electricity"></div>
+                            </th>
+                            <th>Timestamp</th>
+                        </tr>
+                        </thead>
+                        <tbody id="tbody_electricity">
 
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-9">
-                <canvas id="energyChart" width="300" height="100"></canvas>
-            </div>
-            <div class="col-3">
-                <table class="table table-bordered table-striped table-hover table-sm" style="font-size: 11px;"
-                       id="table_electricity">
-                    <thead>
-                    <tr>
-                        <th>kWh</th>
-                        <th>Tarief
-                            <div id="tariff_electricity"></div>
-                        </th>
-                        <th>Timestamp</th>
-                    </tr>
-                    </thead>
-                    <tbody id="tbody_electricity">
+                        </tbody>
+                    </table>
 
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-9">
-                <canvas id="gasChart" width="300" height="100"></canvas>
-            </div>
-            <div class="col-3">
-                <table class="table table-bordered table-striped table-hover table-sm" style="font-size: 11px;"
-                       id="table_gas">
-                    <thead>
-                    <tr>
-                        <th>m3</th>
-                        <th>Tarief
-                            <div id="tariff_gas"></div>
-                        </th>
-                        <th>Timestamp</th>
-                    </tr>
-                    </thead>
-                    <tbody id="tbody_gas">
+                    <canvas id="gasChart" width="300" height="100"></canvas>
+                    <table class="table table-bordered table-striped table-hover table-sm" style="font-size: 11px;"
+                           id="table_gas">
+                        <thead>
+                        <tr>
+                            <th>m3</th>
+                            <th>Tarief
+                                <div id="tariff_gas"></div>
+                            </th>
+                            <th>Timestamp</th>
+                        </tr>
+                        </thead>
+                        <tbody id="tbody_gas">
 
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+
+                </div>
             </div>
         </div>
     </div>

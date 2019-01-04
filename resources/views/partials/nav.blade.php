@@ -9,18 +9,9 @@
         </a>
         <ul class="treeview-menu">
             <li class="">
-                <a href="">
-                    <i class="fa fa-money fa-fw"></i>
-                </a>
-            </li>
-            <li class="">
-                <a href="">
-                    <i class="fa fa-shopping-cart fa-fw"></i>
-                </a>
-            </li>
-            <li class="">
-                <a href="">
-                    <i class="fa fa-download fa-fw"></i>
+                <a href="{{ url('meter/liveUI') }}">
+                    <i class="fa fa-dashcube fa-fw"></i>
+                    Live UI
                 </a>
             </li>
         </ul>
