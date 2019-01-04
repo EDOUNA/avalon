@@ -140,6 +140,9 @@ class DevicesController extends Controller
         return response()->json($tariff);
     }
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getDailyBudget()
     {
         $monthlyBudget = Configurations::where('setting', 'energy_monhtly_budget')->first();
@@ -157,10 +160,16 @@ class DevicesController extends Controller
         $msg['daysRemaining'] = ($daysInMonth - $currentDay);
         $msg['monthlyBudget'] = $monthlyBudget;
         $msg['dailyBudget'] = $budgetPerDay;
+        $msg['dailyUsed'] = 0;
 
-        $measurements = DeviceMeasurements::with(['devices' => function ($device) {
-            $device->where('active', 1);
-        }], 'deviceTariffs')->orderBy('created_at', 'desc')->get();
+        $measurements = [];
+        foreach (Devices::where('active', 1)->get()->toArray() as $k => $d) {
+            $measurements[$k] = DeviceMeasurements::with('devices', 'deviceTariffs')
+                ->where('device_id', $d['id'])
+                ->orderBy('created_at', 'desc')->first();
+
+            $msg['dailyUsed'] = $msg['dailyUsed'] + ($measurements[$k]->amount * $measurements[$k]->device_tarrifs->amount);
+        }
 
         $msg['measurements'] = $measurements;
 

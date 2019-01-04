@@ -138,6 +138,7 @@
                     });
                 },
                 error: function (jqXhr, textStatus, errorThrown) {
+                    $()
                     console.log(textStatus);
                 }
             });
