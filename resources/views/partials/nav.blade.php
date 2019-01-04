@@ -1,7 +1,7 @@
 <ul class="sidebar-menu" data-widget="tree">
     <li class="treeview" id="account-menu">
         <a href="#">
-            <i class="fa fa-credit-card fa-fw"></i>
+            <i class="fa fa-tachometer fa-fw"></i>
             <span>Meter</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>

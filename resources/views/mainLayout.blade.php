@@ -47,27 +47,17 @@
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
 
-                    <li class="hidden-sm hidden-xs">
-                        <a href="#" id="help" data-route=""
-                           data-extra="">
-                            <i class="fa fa-question-circle" data-route=""
-                               data-extra=""></i>
-                        </a>
-                    </li>
-
-                    <li>
-                        <span style="color:#fff;padding: 15px;display: block;line-height: 20px;">
-                            <span id="daterange"></span>
-                        </span>
-                    </li>
-
                     <li class="dropdown user user-menu">
                         <span style="cursor:default;color:#fff;padding: 15px;display: block;line-height: 20px;">
                             <span class="hidden-xs">{{ Auth::user()->name }}</span>
                         </span>
                     </li>
-                    <li id="sidebar-toggle">
-                        <a href="#" data-toggle="control-sidebar"><i class="fa fa-plus-circle"></i></a>
+                    <li>
+                        <a class="nav-link" href="{{ url('logout') }}"
+                           onclick="event.preventDefault();document.getElementById('logout-form').submit();">Uitloggen</a>
+                        <form id="logout-form" action="{{ url('logout') }}" method="POST" style="display: none;">
+                            {{ csrf_field() }}
+                        </form>
                     </li>
                 </ul>
             </div>
@@ -76,6 +66,7 @@
     </header>
     <aside class="main-sidebar">
         <section class="sidebar">
+            <!--
             <form action="#" method="get" class="sidebar-form">
                 <div class="input-group">
                     <input autocomplete="off" type="text" name="q" class="form-control"
@@ -85,7 +76,7 @@
                         class="fa fa-search"></i></button>
               </span>
                 </div>
-            </form>
+            </form>!-->
             @include('partials.nav')
         </section>
     </aside>
@@ -101,7 +92,7 @@
     </div>
     <footer class="main-footer">
         <div class="pull-right hidden-xs">
-            <strong>Versie 0.8</strong>
+            Versie 0.8 | <a href="mailto:e.douna@gmail.com">Erwin Douna</a>
         </div>
     </footer>
 
