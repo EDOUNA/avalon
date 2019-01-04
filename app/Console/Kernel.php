@@ -25,9 +25,6 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('avalon:readAPI')->everyMinute();
-
-        // $schedule->command('inspire')
-        //          ->hourly();
     }
 
     /**
