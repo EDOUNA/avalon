@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <base href="{{ route('index') }}/">
+    <base href="{{ route('') }}/">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -9,24 +9,21 @@
     <title>{{ env('APP_NAME') }}</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
 
+    <link href="{{ asset('lib/bs/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset('lib/fa/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset('css/daterangepicker.css') }}" rel="stylesheet" type="text/css"/>
 
-    <link href="v1/lib/bs/css/bootstrap.min.css?v={{ FF_VERSION }}" rel="stylesheet" type="text/css"/>
-    <link href="v1/lib/fa/css/font-awesome.min.css?v={{ FF_VERSION }}" rel="stylesheet" type="text/css"/>
-    <link href="v1/css/daterangepicker.css?v={{ FF_VERSION }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset('lib/adminlte/css/AdminLTE.min.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset('lib/adminlte/css/skins/skin-blue-light.min.css') }}" rel="stylesheet" type="text/css"/>
 
-    {# the theme #}
-    <link href="v1/lib/adminlte/css/AdminLTE.min.css?v={{ FF_VERSION }}" rel="stylesheet" type="text/css"/>
-    <link href="v1/lib/adminlte/css/skins/skin-blue-light.min.css?v={{ FF_VERSION }}" rel="stylesheet" type="text/css"/>
-
-    {# Firefly III customisations #}
-    <link href="v1/css/firefly.css?v={{ FF_VERSION }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset('css/firefly.css') }}" rel="stylesheet" type="text/css"/>
 
     {# Extra CSS for the demo: #}
     {% if not shownDemo %}
     <link href="v1/lib/intro/introjs.min.css?v={{ FF_VERSION }}" rel="stylesheet" type="text/css"/>
     {% endif %}
 
-    {# Any local custom CSS.  #}
+    {# Any local custom CSS. #}
     {% block styles %}{% endblock %}
     <!--[if lt IE 9]>
     <script src="v1/js/lib/html5shiv.min.js?v={{ FF_VERSION }}"></script>
@@ -62,8 +59,10 @@
                 <ul class="nav navbar-nav">
 
                     <li class="hidden-sm hidden-xs">
-                        <a href="#" id="help" data-route="{{ original_route_name }}" data-extra="{{ what|default("") }}">
-                            <i class="fa fa-question-circle" data-route="{{ original_route_name }}" data-extra="{{ what|default("") }}"></i>
+                        <a href="#" id="help" data-route="{{ original_route_name }}"
+                           data-extra="{{ what|default("") }}">
+                            <i class="fa fa-question-circle" data-route="{{ original_route_name }}"
+                               data-extra="{{ what|default("") }}"></i>
                         </a>
                     </li>
 
@@ -92,9 +91,11 @@
         <section class="sidebar">
             <form action="{{ route('search.index') }}" method="get" class="sidebar-form">
                 <div class="input-group">
-                    <input autocomplete="off" type="text" name="q" class="form-control" placeholder="{{ 'searchPlaceholder'|_ }}" value="{{ query }}"/>
+                    <input autocomplete="off" type="text" name="q" class="form-control"
+                           placeholder="{{ 'searchPlaceholder'|_ }}" value="{{ query }}"/>
                     <span class="input-group-btn">
-                <button type='submit' name='search' id='search-btn' class="btn btn-flat"><i class="fa fa-search"></i></button>
+                <button type='submit' name='search' id='search-btn' class="btn btn-flat"><i
+                        class="fa fa-search"></i></button>
               </span>
                 </div>
             </form>
@@ -165,7 +166,9 @@
 <script src="v1/js/ff/moment/{{ language }}.js?v={{ FF_VERSION }}" type="text/javascript"></script>
 
 {# All kinds of variables. #}
-<script src="{{ route('javascript.variables') }}?ext=.js&amp;v={{ FF_VERSION }}{% if account %}&amp;account={{ account.id }}{% endif %}" type="text/javascript"></script>
+<script
+    src="{{ route('javascript.variables') }}?ext=.js&amp;v={{ FF_VERSION }}{% if account %}&amp;account={{ account.id }}{% endif %}"
+    type="text/javascript"></script>
 
 {# big fat JS thing courtesy of Vue#}
 <script src="v1/js/app.js?v={{ FF_VERSION }}" type="text/javascript"></script>
@@ -194,7 +197,11 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id={{ config('firefly.analytics_id')  }}"></script>
 <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
     gtag('js', new Date());
 
     gtag('config', '{{ config('firefly.analytics_id')  }}');
