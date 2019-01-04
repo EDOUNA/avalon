@@ -14,6 +14,12 @@
                     Live UI
                 </a>
             </li>
+            <li class="">
+                <a href="{{ url('meter/liveUI') }}">
+                    <i class="fa fa-dashcube fa-fw"></i>
+                    Live UI
+                </a>
+            </li>
         </ul>
     </li>
 </ul>
