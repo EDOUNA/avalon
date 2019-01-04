@@ -21,14 +21,19 @@ Route::group(['namespace' => 'bank'], function () {
     Route::get('/bank/categories', 'CategoriesController@index');
 
     // API module specific routs
+    // @TODO: merge these to api.php
     Route::get('/bank/transactions/api/getCategorizedScore', 'TransactionsController@getCategorizedScore');
 });
 
 Route::group(['namespace' => 'meter'], function () {
     Route::get('/meter/liveUI', 'MeterController@liveUI');
 
+    // @TODO: merge these to api.php
     Route::get('/meter/api/getDomoticzData', 'MeterController@getDomoticzData');
     Route::get('/meter/api/getMeasurements/{deviceID}', 'DevicesController@getMeasurements');
     Route::get('/meter/api/getActualTariffs/{deviceID}', 'DevicesController@getActualTariffs');
     Route::get('/meter/api/getDailyBudget', 'DevicesController@getDailyBudget');
 });
+
+Auth::routes();
+Route::get('/home', 'HomeController@index')->name('home');
