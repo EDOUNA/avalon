@@ -1,11 +1,10 @@
-@extends('layouts.app')
-
+@extends('layouts.login')
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-8">
+            <div class="col-md-4">
                 <div class="card">
-                    <div class="card-header">{{ __('Login') }}</div>
+                    <div class="card-header">Inlog gateway</div>
 
                     <div class="card-body">
                         <form method="POST" action="{{ route('login') }}">
@@ -13,7 +12,7 @@
 
                             <div class="form-group row">
                                 <label for="email"
-                                       class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
+                                       class="col-md-4 col-form-label text-md-right">E-mail address</label>
 
                                 <div class="col-md-6">
                                     <input id="email" type="email"
@@ -30,7 +29,7 @@
 
                             <div class="form-group row">
                                 <label for="password"
-                                       class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
+                                       class="col-md-4 col-form-label text-md-right">Wachtwoord</label>
 
                                 <div class="col-md-6">
                                     <input id="password" type="password"
@@ -52,7 +51,7 @@
                                                id="remember" {{ old('remember') ? 'checked' : '' }}>
 
                                         <label class="form-check-label" for="remember">
-                                            {{ __('Remember Me') }}
+                                            Onthoud login?
                                         </label>
                                     </div>
                                 </div>
@@ -61,14 +60,8 @@
                             <div class="form-group row mb-0">
                                 <div class="col-md-8 offset-md-4">
                                     <button type="submit" class="btn btn-primary">
-                                        {{ __('Login') }}
+                                        Inloggen
                                     </button>
-
-                                    @if (Route::has('password.request'))
-                                        <a class="btn btn-link" href="{{ route('password.request') }}">
-                                            {{ __('Forgot Your Password?') }}
-                                        </a>
-                                    @endif
                                 </div>
                             </div>
                         </form>
