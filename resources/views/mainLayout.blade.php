@@ -20,6 +20,16 @@
     <script src="{{ asset('js/lib/html5shiv.min.js') }}"></script>
     <script src="{{ asset('js/lib/respond.min.js') }}"></script>
     <![endif]-->
+
+    <script src="{{ asset('js/lib/jquery.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/lib/jquery-ui.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/lib/moment.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/ff/moment/en_US.js') }}" type="text/javascript"></script>
+
+    <script src="{{ asset('js/lib/daterangepicker.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('lib/adminlte/js/adminlte.min.js') }}" type="text/javascript"></script>
+    <script src="{{ url('https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.min.js') }}"
+            type="text/javascript"></script>
 </head>
 <body class="skin-blue-light sidebar-mini hold-transition">
 <div class="wrapper" id="app">
@@ -99,15 +109,6 @@
 </div>
 <div class="modal fade" id="defaultModal" tabindex="-1" role="dialog">
 </div>
-
-
-<script src="{{ asset('js/lib/jquery.min.js') }}" type="text/javascript"></script>
-<script src="{{ asset('js/lib/jquery-ui.min.js') }}" type="text/javascript"></script>
-<script src="{{ asset('js/lib/moment.min.js') }}" type="text/javascript"></script>
-<script src="{{ asset('js/ff/moment/en_US.js') }}" type="text/javascript"></script>
-
-<script src="{{ asset('js/lib/daterangepicker.js') }}" type="text/javascript"></script>
-<script src="{{ asset('lib/adminlte/js/adminlte.min.js') }}" type="text/javascript"></script>
 
 </body>
 </html>
