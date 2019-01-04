@@ -28,8 +28,7 @@
 
     <script src="{{ asset('js/lib/daterangepicker.js') }}" type="text/javascript"></script>
     <script src="{{ asset('lib/adminlte/js/adminlte.min.js') }}" type="text/javascript"></script>
-    <script src="{{ url('https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.min.js') }}"
-            type="text/javascript"></script>
+    <script src="{{ asset('js/lib/chart.js') }}" type="text/javascript"></script>
 </head>
 <body class="skin-blue-light sidebar-mini hold-transition">
 <div class="wrapper" id="app">
