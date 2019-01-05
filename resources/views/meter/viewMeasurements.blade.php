@@ -121,41 +121,12 @@
                     <h3 class="box-title">Static view</h3>
                 </div>
                 <div class="box-body">
-                    <div class="pull-left">
-                        Laast geüpdatet om <span id="lastUpdateTimestamp"></span>
+                    <div class="pull-left" style="font-size: 12px;">
+                        Laatst geüpdatet om <span id="lastUpdateTimestamp"></span>
                     </div>
                     <canvas id="energyChart" width="300" height="100"></canvas>
-                    <table class="table table-bordered table-striped table-hover table-sm" style="font-size: 11px;"
-                           id="table_electricity">
-                        <thead>
-                        <tr>
-                            <th>kWh</th>
-                            <th>Tarief
-                                <div id="tariff_electricity"></div>
-                            </th>
-                            <th>Timestamp</th>
-                        </tr>
-                        </thead>
-                        <tbody id="tbody_electricity">
 
-                        </tbody>
-                    </table>
                     <canvas id="gasChart" width="300" height="100"></canvas>
-                    <table class="table table-bordered table-striped table-hover table-sm" style="font-size: 11px;"
-                           id="table_gas">
-                        <thead>
-                        <tr>
-                            <th>m3</th>
-                            <th>Tarief
-                                <div id="tariff_gas"></div>
-                            </th>
-                            <th>Timestamp</th>
-                        </tr>
-                        </thead>
-                        <tbody id="tbody_gas">
-
-                        </tbody>
-                    </table>
                 </div>
             </div>
         </div>
