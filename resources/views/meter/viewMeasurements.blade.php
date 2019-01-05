@@ -11,9 +11,9 @@
                 $(".avalonCanvas").outerHeight($(window).height() - $(".avalonCanvas").offset().top - Math.abs($(".avalonCanvas").outerHeight(true) - $(".avalonCanvas").outerHeight()));
             }
 
-
-            resize();
-
+            $(window).on("resize", function () {
+                resize();
+            });
 
             let energyChart = new Chart($("#energyChart"), {
                 type: 'line',
