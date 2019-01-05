@@ -69,6 +69,7 @@
 
                         $("#budgetAllowed").text(data.budgetCurrency + " " + data.budgetAllowed);
                         $("#budgetSpent").text(data.budgetCurrency + " " + data.budgetSpent);
+                        $("#budgetPercentage").text(data.budgetPercentage + "%");
 
                         infoBox.addClass(data.infoBoxClass);
                         progressBar.css('width', cssProgressPercentage + "%");
@@ -93,7 +94,7 @@
                 <div class="box-body">
                     <div class="info-box" id="budgetInfoBox">
                         <span class="info-box-icon">
-                            <i class="ion ion-cash"></i>
+                            <span id="budgetPercentage" style="font-size: 36px;"></span>
                         </span>
                         <div class="info-box-content">
                             <span class="info-box-text">
