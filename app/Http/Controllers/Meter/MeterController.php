@@ -118,7 +118,7 @@ class MeterController extends Controller
             }
 
             $output['measurements'][$k]['amount'] = round($m['amount'], 4);
-            $output['measurements'][$k]['created_at'] = $m['created_at'];
+            $output['measurements'][$k]['created_at'] = date('H:i:s', $m['created_at']);
         }
 
         return response()->json($output);
