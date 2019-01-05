@@ -3,8 +3,6 @@
     <script type="text/javascript">
         const chartInterval = {{ $chartInterval }};
         const internalStaticInterval = "{{ url('meter/api/renderDefaultMeasurements') }}";
-        const internalGetMeasurementsAPI = "{{ url('meter/api/getMeasurements') }}";
-        const internalGetActualTariffsAPI = "{{ url('meter/api/getActualTariffs') }}";
 
         $(document).ready(function () {
             let energyChart = new Chart($("#energyChart"), {
@@ -119,11 +117,11 @@
             <div class="box">
                 <div class="box-header with-border">
                     <h3 class="box-title">Static view</h3>
-                </div>
-                <div class="box-body">
-                    <div class="pull-left" style="font-size: 12px;">
+                    <div class="pull-right" style="font-size: 12px;">
                         Laatst geüpdatet om <span id="lastUpdateTimestamp"></span>
                     </div>
+                </div>
+                <div class="box-body">
                     <canvas id="energyChart" width="300" height="100"></canvas>
 
                     <canvas id="gasChart" width="300" height="100"></canvas>
