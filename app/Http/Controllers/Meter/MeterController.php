@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Meter;
 
 use App\Http\Controllers\Controller;
 use App\Models\Configurations;
+use App\Models\Meter\DeviceMeasurements;
+use App\Models\Meter\Devices;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Log;
@@ -79,5 +81,55 @@ class MeterController extends Controller
 
         $time = Carbon::now();
         return response()->json(['status' => 'OK', 'utilities' => $msg, 'serverTime' => $time->toTimeString()]);
+    }
+
+    /**
+     * @param Int $deviceID
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function renderDefaultMeasurements(Int $deviceID)
+    {
+        $configuration = Configurations::where('setting', 'energy_meter_default_total_interval')->first();
+        if (null === $configuration) {
+            Log::debug('Unable to fetch energy_meter_default_time_interval');
+            return response()->json(['status' => 'Unable to fetch configuration.'], 500);
+        }
+
+        $device = Devices::with('deviceTypes')->where('id', $deviceID)->first();
+        if (null === $device) {
+            Log::debug('Could not find deviceID: ' . $deviceID);
+            return response()->json(['status' => 'No deviceID found.'], 500);
+        }
+
+        $measurementInterval = $configuration->parameter;
+        $measurements = DeviceMeasurements::with('devices', 'devices.deviceTypes', 'deviceTariffs', 'deviceTariffs.currencies')
+            ->where('device_id', $deviceID)
+            ->limit($measurementInterval)
+            ->orderBy('created_at', 'asc')
+            ->get()->toArray();
+
+        $output = [];
+        foreach ($measurements as $k => $m) {
+            // Build the header
+            if (!isset($output['deviceDetails'])) {
+                $output['deviceDetails']['deviceType'] = $m['devices']['device_types']['description'];
+                $output['deviceDetails']['tariff']['amount'] = round($m['device_tariffs']['amount'], 4);
+                $output['deviceDetails']['tariff']['symbol'] = $m['device_tariffs']['currencies']['symbol'];
+            }
+
+            $output['measurements'][$k]['amount'] = round($m['amount'], 4);
+            $output['measurements'][$k]['created_at'] = $m['created_at'];
+        }
+
+        return response()->json($output);
+    }
+
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function viewStatic()
+    {
+        $configuration = Configurations::where('setting', 'energy_meter_default_timer_interval')->first();
+        return view('meter.viewMeasurements', ['chartInterval' => $configuration->parameter]);
     }
 }

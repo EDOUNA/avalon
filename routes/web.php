@@ -20,12 +20,14 @@ Route::group(['middleware' => 'auth', 'namespace' => 'Bank'], function () {
 
 Route::group(['middleware' => 'auth', 'namespace' => 'Meter'], function () {
     Route::get('/meter/liveUI', 'MeterController@liveUI');
+    Route::get('/meter/static', 'MeterController@viewStatic');
 
     // @TODO: merge these to api.php
     Route::get('/meter/api/getDomoticzData', 'MeterController@getDomoticzData');
     Route::get('/meter/api/getMeasurements/{deviceID}', 'DevicesController@getMeasurements');
     Route::get('/meter/api/getActualTariffs/{deviceID}', 'DevicesController@getActualTariffs');
     Route::get('/meter/api/getDailyBudget', 'DevicesController@getDailyBudget');
+    Route::get('/meter/api/renderDefaultMeasurements/{deviceID}', 'MeterController@renderDefaultMeasurements');
 });
 
 Auth::routes();
