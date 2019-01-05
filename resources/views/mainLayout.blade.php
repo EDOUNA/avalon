@@ -17,12 +17,14 @@
 
     <link href="{{ asset('lib/adminlte/css/AdminLTE.min.css') }}" rel="stylesheet" type="text/css"/>
     <link href="{{ asset('lib/adminlte/css/skins/skin-blue-light.min.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset('css/pace.css') }}" rel="stylesheet" type="text/css"/>
 
     <!--[if lt IE 9]>
     <script src="{{ asset('js/lib/html5shiv.min.js') }}"></script>
     <script src="{{ asset('js/lib/respond.min.js') }}"></script>
     <![endif]-->
 
+    <script src="{{ asset('js/lib/pace.js') }}" type="text/javascript"></script>
     <script src="{{ asset('js/lib/jquery.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('js/lib/jquery-ui.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('js/lib/moment.min.js') }}" type="text/javascript"></script>
