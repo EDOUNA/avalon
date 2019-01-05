@@ -68,7 +68,8 @@
 
             window.setInterval(function () {
                 runScript();
-            }, chartInterval);
+                //}, chartInterval);
+            }, 5000);
 
             function runScript() {
                 updateCharts(1);
@@ -83,16 +84,28 @@
                     contentType: 'application/json',
                     success: function (data, textStatus, jQxhr) {
                         console.log(data);
+                        removeData(energyChart);
+                        removeData(gasChart);
+                        let labelArray = [];
+                        let amountArray = [];
                         if (data.deviceDetails.deviceType === 'electricity') {
-                            removeData(energyChart);
                             $.each(data.measurements, function (index, value) {
-                                addData(energyChart, value.created_at, value.amount);
+                                labelArray.push(value.created_at);
+                                amountArray.push(value.amount);
                             });
+                            energyChart.data.labels = labelArray;
+                            energyChart.data.datasets[0].data = amountArray;
+
+                            energyChart.update();
                         } else if (data.deviceDetails.deviceType === 'gas') {
-                            removeData(gasChart);
                             $.each(data.measurements, function (index, value) {
-                                addData(gasChart, value.created_at, value.amount);
+                                labelArray.push(value.created_at);
+                                amountArray.push(value.amount);
                             });
+                            gasChart.data.labels = labelArray;
+                            gasChart.data.datasets[0].data = amountArray;
+
+                            gasChart.update();
                         }
                     },
                     error: function (jqXhr, textStatus, errorThrown) {
@@ -120,10 +133,9 @@
              * @param chart
              */
             function removeData(chart) {
-                console.log('running here');
+                console.log('Running for ' + chart);
                 chart.data.labels.pop();
                 chart.data.datasets.forEach((dataset) => {
-                    console.log(' running');
                     dataset.data.pop();
                 });
                 chart.update();
