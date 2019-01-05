@@ -58,9 +58,9 @@ class MeterAPIController extends Controller
             $msg['budgetPercentage'] = round(($msg['budgetSpent'] / $msg['budgetAllowed']) * 100);
         }
 
-        $msg['progressBarClass'] = 'progress-bar-green';
+        $msg['infoBoxClass'] = 'bg-green';
         if ($msg['budgetPercentage'] > 100) {
-            $msg['progressBarClass'] = 'progress-bar-red';
+            $msg['infoBoxClass'] = 'bg-red';
         }
 
         return response()->json($msg);

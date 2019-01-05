@@ -13,6 +13,7 @@
     <link href="{{ asset('lib/bs/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css"/>
     <link href="{{ asset('lib/fa/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css"/>
     <link href="{{ asset('css/daterangepicker.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset('css/ion-icons.css') }}" rel="stylesheet" type="text/css"/>
 
     <link href="{{ asset('lib/adminlte/css/AdminLTE.min.css') }}" rel="stylesheet" type="text/css"/>
     <link href="{{ asset('lib/adminlte/css/skins/skin-blue-light.min.css') }}" rel="stylesheet" type="text/css"/>

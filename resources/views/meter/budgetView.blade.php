@@ -60,14 +60,18 @@
                         budgetChart.update();
 
                         let progressBar = $("#budgetProcessBar");
+                        let infoBox = $("#budgetInfoBox");
                         let cssProgressPercentage = 100;
 
                         if (data.budgetPercentage < 100) {
                             cssProgressPercentage = data.budgetPercentage;
                         }
 
-                        progressBar.addClass(data.progressBarClass);
-                        progressBar.attr('aria-valuenow', cssProgressPercentage).css('width', cssProgressPercentage + "%");
+                        $("#budgetAllowed").text(data.budgetCurrency + " " + data.budgetAllowed);
+                        $("#budgetSpent").text(data.budgetCurrency + " " + data.budgetSpent);
+
+                        infoBox.addClass(data.infoBoxClass);
+                        progressBar.css('width', cssProgressPercentage + "%");
                         progressBar.text(data.budgetCurrency + " " + data.budgetSpent + " / " + data.budgetCurrency + " " + data.budgetAllowed);
                     },
                     error: function (jqXhr, textStatus, errorThrown) {
@@ -87,12 +91,30 @@
                     </div>
                 </div>
                 <div class="box-body">
-                    <div class="progress-bar" id="budgetProcessBar" role="progressbar" aria-valuenow="0"
-                         aria-valuemin="0"
-                         aria-valuemax="100">
+                    <div class="info-box" id="budgetInfoBox">
+                        <span class="info-box-icon">
+                            <i class="ion ion-cash"></i>
+                        </span>
+                        <div class="info-box-content">
+                            <span class="info-box-text">
+                                Gebudgeteerd: <span id="budgetAllowed"></span>
+                            </span>
+                            <span class="info-box-number">
+                                Gespendeerd: <span id="budgetSpent"></span>
+                            </span>
+                            <div class="progress">
+                                <div class="progress-bar" id="budgetProcessBar"></div>
+                            </div>
+                            <span class="progress-description"></span>
+                        </div>
                     </div>
                     <p>&nbsp;</p>
                     <canvas id="budgetChart" class="avalonCanvas"></canvas>
+                </div>
+                <div class="box-footer with-border">
+                    <div class="btn-group">
+                        <div
+                    </div>
                 </div>
             </div>
         </div>
