@@ -5,12 +5,6 @@
         const internalStaticInterval = "{{ url('meter/api/renderDefaultMeasurements') }}";
 
         $(document).ready(function () {
-            let c = document.getElementById("canvas");
-            let ctx = c.getContext("2d");
-            ctx.beginPath();
-            ctx.arc(95, 50, 40, 0, 2 * Math.PI);
-            ctx.stroke();
-
             let energyChart = new Chart($("#energyChart"), {
                 type: 'line',
                 responsive: true,
@@ -128,9 +122,9 @@
                     </div>
                 </div>
                 <div class="box-body">
-                    <canvas id="energyChart" width="300" height="100"></canvas>
+                    <canvas id="energyChart" class="img-responsive" width="300" height="100"></canvas>
 
-                    <canvas id="gasChart" width="300" height="100"></canvas>
+                    <canvas id="gasChart" class="img-responsive" width="300" height="100"></canvas>
                 </div>
             </div>
         </div>
