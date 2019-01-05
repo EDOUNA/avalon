@@ -21,7 +21,7 @@ Route::group(['middleware' => 'auth', 'namespace' => 'Bank'], function () {
 Route::group(['middleware' => 'auth', 'namespace' => 'Meter'], function () {
     Route::get('/meter/liveUI', 'MeterController@liveUI');
     Route::get('/meter/static', 'MeterController@viewStatic');
-    Route::get('/meter/budget', 'MeterController@budget');
+    Route::get('/meter/budget/{rangeType?}', 'MeterController@budget');
 
     // @TODO: merge these to api.php
     Route::get('/meter/api/getDomoticzData', 'MeterController@getDomoticzData');

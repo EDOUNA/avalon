@@ -2,6 +2,7 @@
 @section('content')
     <script type="text/javascript">
         const chartInterval = {{ $refreshInterval }};
+        const rangeType = "{{ $rangeType }}";
         const internalBudgetAPI = "{{ url('meter/api/getBudget/d') }}";
 
         $(document).ready(function () {
@@ -28,6 +29,7 @@
 
             // Initial set-up
             runScript();
+            $("#btnRange_" + rangeType).removeClass('btn-default').addClass('btn-primary');
 
             window.setInterval(function () {
                 runScript();
@@ -113,8 +115,12 @@
                     <canvas id="budgetChart" class="avalonCanvas"></canvas>
                 </div>
                 <div class="box-footer with-border">
-                    <div class="btn-group">
-
+                    <div class="text-center">
+                        <div class="btn-group">
+                            <a href="{{ url('meter/budget/d') }}" class="btn btn-default" id="btnRange_d">Dag</a>
+                            <a href="{{ url('meter/budget/w') }}" class="btn btn-default" id="btnRange_w">Week</a>
+                            <a href="{{ url('meter/budget/m') }}" class="btn btn-default" id="btnRange_m">Maand</a>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -26,36 +26,42 @@ class MeterAPIController extends Controller
         $monthlyBudgetConfiguration = Configurations::where('setting', 'energy_monhtly_budget')->first()->parameter;
 
         $msg = [];
-        if ($rangeType == 'd') {
-            $daysInMonth = cal_days_in_month(CAL_GREGORIAN, date('m'), date('Y'));
-            $budgetPerDay = ($monthlyBudgetConfiguration / $daysInMonth);
-            $currentDay = date('d');
+        switch ($rangeType) {
+            case 'd':
+                $daysInMonth = cal_days_in_month(CAL_GREGORIAN, date('m'), date('Y'));
+                $budgetPerDay = ($monthlyBudgetConfiguration / $daysInMonth);
+                $currentDay = date('d');
 
-            $msg['daysRemaining'] = ($daysInMonth - $currentDay);
-            $msg['daysPercentage'] = round(100 - ($msg['daysRemaining'] / $daysInMonth) * 100);
-            $msg['monthlyBudget'] = round($monthlyBudgetConfiguration, 2);
-            $msg['budgetAllowed'] = round($budgetPerDay, 2);
-            $msg['budgetSpent'] = 0;
-            $msg['budgetCurrency'] = null;
+                $msg['daysRemaining'] = ($daysInMonth - $currentDay);
+                $msg['daysPercentage'] = round(100 - ($msg['daysRemaining'] / $daysInMonth) * 100);
+                $msg['monthlyBudget'] = round($monthlyBudgetConfiguration, 2);
+                $msg['budgetAllowed'] = round($budgetPerDay, 2);
+                $msg['budgetSpent'] = 0;
+                $msg['budgetCurrency'] = null;
 
-            $measurements = [];
-            foreach ($devices as $k => $d) {
-                $measurements[$k] = DeviceMeasurements::with('devices', 'deviceTariffs', 'deviceTariffs.currencies')
-                    ->where('device_id', $d['id'])
-                    ->orderBy('created_at', 'desc')->first();
+                $measurements = [];
+                foreach ($devices as $k => $d) {
+                    $measurements[$k] = DeviceMeasurements::with('devices', 'deviceTariffs', 'deviceTariffs.currencies')
+                        ->where('device_id', $d['id'])
+                        ->orderBy('created_at', 'desc')->first();
 
-                if (!isset($msg['budgetCurrency'])) {
-                    $msg['budgetCurrency'] = $measurements[$k]['deviceTariffs']['currencies']['symbol'];
+                    if (!isset($msg['budgetCurrency'])) {
+                        $msg['budgetCurrency'] = $measurements[$k]['deviceTariffs']['currencies']['symbol'];
+                    }
+
+                    $msg['budgetSpent'] = $msg['budgetSpent'] + ($measurements[$k]['amount'] * $measurements[$k]['deviceTariffs']['amount']);
+                    $msg['devices'][$k]['description'] = $d['description'];
+                    $msg['devices'][$k]['amount'] = round(($measurements[$k]['amount'] * $measurements[$k]['deviceTariffs']['amount']), 2);
+                    $msg['devices'][$k]['currency'] = $measurements[$k]['deviceTariffs']['currencies']['symbol'];
                 }
 
-                $msg['budgetSpent'] = $msg['budgetSpent'] + ($measurements[$k]['amount'] * $measurements[$k]['deviceTariffs']['amount']);
-                $msg['devices'][$k]['description'] = $d['description'];
-                $msg['devices'][$k]['amount'] = round(($measurements[$k]['amount'] * $measurements[$k]['deviceTariffs']['amount']), 2);
-                $msg['devices'][$k]['currency'] = $measurements[$k]['deviceTariffs']['currencies']['symbol'];
-            }
-
-            $msg['budgetSpent'] = round($msg['budgetSpent'], 2);
-            $msg['budgetPercentage'] = round(($msg['budgetSpent'] / $msg['budgetAllowed']) * 100);
+                $msg['budgetSpent'] = round($msg['budgetSpent'], 2);
+                $msg['budgetPercentage'] = round(($msg['budgetSpent'] / $msg['budgetAllowed']) * 100);
+                break;
+            case 'w':
+                break;
+            case 'm':
+                break;
         }
 
         $msg['infoBoxClass'] = 'bg-green';

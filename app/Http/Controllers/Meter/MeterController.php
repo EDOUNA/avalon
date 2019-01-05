@@ -138,11 +138,17 @@ class MeterController extends Controller
     }
 
     /**
+     * @param String $rangeType
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Exception
      */
-    public function budget()
+    public function budget(String $rangeType = 'd')
     {
+        $validRangeTypes = ['d', 'w', 'm'];
+        if (!in_array($rangeType, $validRangeTypes)) {
+            throw new \Exception('Geen geldige range type mee gegeven.');
+        }
         $configuration = Configurations::where('setting', 'energy_meter_default_timer_interval')->first();
-        return view('meter.budgetView', ['refreshInterval' => $configuration->parameter]);
+        return view('meter.budgetView', ['refreshInterval' => $configuration->parameter, 'rangeType' => $rangeType]);
     }
 }
