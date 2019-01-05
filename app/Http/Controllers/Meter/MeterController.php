@@ -136,4 +136,13 @@ class MeterController extends Controller
         $configuration = Configurations::where('setting', 'energy_meter_default_timer_interval')->first();
         return view('meter.viewMeasurements', ['chartInterval' => $configuration->parameter]);
     }
+
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function budget()
+    {
+        $configuration = Configurations::where('setting', 'energy_meter_default_timer_interval')->first();
+        return view('meter.budgetView', ['refreshInterval' => $configuration->parameter]);
+    }
 }
