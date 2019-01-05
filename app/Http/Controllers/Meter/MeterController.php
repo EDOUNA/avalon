@@ -106,7 +106,9 @@ class MeterController extends Controller
             ->where('device_id', $deviceID)
             ->whereDate('created_at', Carbon::today())
             ->orderBy('created_at', 'desc')
-            ->get()->toArray();
+            ->get()->groupBy(function ($date) {
+                return Carbon::parse($date->created_at)->format('h');
+            })->toArray();
 
         $output = [];
         foreach ($measurements as $k => $m) {
