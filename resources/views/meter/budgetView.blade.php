@@ -113,7 +113,7 @@
                 </div>
                 <div class="box-footer with-border">
                     <div class="btn-group">
-                        <div
+
                     </div>
                 </div>
             </div>
