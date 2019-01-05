@@ -104,7 +104,7 @@ class MeterController extends Controller
         $measurementInterval = $configuration->parameter;
         $measurements = DeviceMeasurements::with('devices', 'devices.deviceTypes', 'deviceTariffs', 'deviceTariffs.currencies')
             ->where('device_id', $deviceID)
-            ->limit($measurementInterval)
+            ->whereDate('created_at', Carbon::today())
             ->orderBy('created_at', 'desc')
             ->get()->toArray();
 
