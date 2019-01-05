@@ -105,7 +105,7 @@ class MeterController extends Controller
         $measurements = DeviceMeasurements::with('devices', 'devices.deviceTypes', 'deviceTariffs', 'deviceTariffs.currencies')
             ->where('device_id', $deviceID)
             ->limit($measurementInterval)
-            ->orderBy('created_at', 'asc')
+            ->orderBy('created_at', 'desc')
             ->get()->toArray();
 
         $output = [];
