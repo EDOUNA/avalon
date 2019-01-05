@@ -68,12 +68,14 @@
 
             window.setInterval(function () {
                 runScript();
-                //}, chartInterval);
-            }, 5000);
+            }, chartInterval);
 
             function runScript() {
                 updateCharts(1);
                 updateCharts(3);
+
+                // Update the last timestamp
+                $("#lastUpdateTimestamp").text(moment().format('HH:mm'));
             }
 
             function updateCharts(deviceID) {
@@ -83,9 +85,6 @@
                     type: 'get',
                     contentType: 'application/json',
                     success: function (data, textStatus, jQxhr) {
-                        console.log(data);
-                        removeData(energyChart);
-                        removeData(gasChart);
                         let labelArray = [];
                         let amountArray = [];
                         if (data.deviceDetails.deviceType === 'electricity') {
@@ -113,33 +112,6 @@
                     }
                 });
             }
-
-            /**
-             * Publish a new chart
-             * @param chart
-             * @param label
-             * @param data
-             */
-            function addData(chart, label, data) {
-                chart.data.labels.push(label);
-                chart.data.datasets.forEach((dataset) => {
-                    dataset.data.push(data);
-                });
-                chart.update();
-            }
-
-            /**
-             * Remove data from the already generated chart
-             * @param chart
-             */
-            function removeData(chart) {
-                console.log('Running for ' + chart);
-                chart.data.labels.pop();
-                chart.data.datasets.forEach((dataset) => {
-                    dataset.data.pop();
-                });
-                chart.update();
-            }
         });
     </script>
     <div class="row">
@@ -149,6 +121,9 @@
                     <h3 class="box-title">Static view</h3>
                 </div>
                 <div class="box-body">
+                    <div class="pull-left">
+                        Laast geüpdatet om <span id="lastUpdateTimestamp"></span>
+                    </div>
                     <canvas id="energyChart" width="300" height="100"></canvas>
                     <table class="table table-bordered table-striped table-hover table-sm" style="font-size: 11px;"
                            id="table_electricity">
