@@ -5,6 +5,12 @@
         const internalStaticInterval = "{{ url('meter/api/renderDefaultMeasurements') }}";
 
         $(document).ready(function () {
+            let c = document.getElementById("canvas");
+            let ctx = c.getContext("2d");
+            ctx.beginPath();
+            ctx.arc(95, 50, 40, 0, 2 * Math.PI);
+            ctx.stroke();
+
             let energyChart = new Chart($("#energyChart"), {
                 type: 'line',
                 responsive: true,
