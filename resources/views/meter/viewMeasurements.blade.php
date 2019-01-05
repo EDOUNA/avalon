@@ -132,9 +132,9 @@
                     </div>
                 </div>
                 <div class="box-body">
-                    <canvas id="energyChart" class="avalonCanvas"></canvas>
+                    <canvas id="energyChart" class="avalonCanvas" width="2000" height="300"></canvas>
 
-                    <canvas id="gasChart" class="avalonCanvas"></canvas>
+                    <canvas id="gasChart" class="avalonCanvas" width="2000" height="300"></canvas>
                 </div>
             </div>
         </div>
