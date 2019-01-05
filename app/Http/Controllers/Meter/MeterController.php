@@ -8,6 +8,7 @@ use App\Models\Meter\DeviceMeasurements;
 use App\Models\Meter\Devices;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Cache;
 use Log;
 
 class MeterController extends Controller
@@ -101,14 +102,18 @@ class MeterController extends Controller
             return response()->json(['status' => 'No deviceID found.'], 500);
         }
 
-        $measurementInterval = $configuration->parameter;
-        $measurements = DeviceMeasurements::with('devices', 'devices.deviceTypes', 'deviceTariffs', 'deviceTariffs.currencies')
-            ->where('device_id', $deviceID)
-            ->whereDate('created_at', Carbon::today())
-            ->orderBy('created_at', 'desc')
-            ->get()->toArray()->groupBy(function ($date) {
-                return Carbon::parse($date->created_at)->format('h');
-            });
+        //$measurementInterval = $configuration->parameter;
+        $cacheKey = 'renderMeasurement_deviceID_' . $deviceID;
+        if (!Cache::has($cacheKey)) {
+            $measurements = DeviceMeasurements::with('devices', 'devices.deviceTypes', 'deviceTariffs', 'deviceTariffs.currencies')
+                ->where('device_id', $deviceID)
+                ->whereDate('created_at', Carbon::today())
+                ->orderBy('created_at', 'desc')
+                ->get()->toArray();
+            Cache::put($cacheKey, $measurements, 30);
+        } else {
+            $measurements = Cache::get($cacheKey);
+        }
 
         $output = [];
         foreach ($measurements as $k => $m) {
