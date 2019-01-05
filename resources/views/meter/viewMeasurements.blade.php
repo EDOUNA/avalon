@@ -9,6 +9,7 @@
         $(document).ready(function () {
             let energyChart = new Chart($("#energyChart"), {
                 type: 'line',
+                responsive: true,
                 data: {
                     labels: [],
                     datasets: [{
@@ -36,6 +37,7 @@
 
             let gasChart = new Chart($("#gasChart"), {
                 type: 'line',
+                responsive: true,
                 data: {
                     labels: [],
                     datasets: [{
@@ -82,10 +84,12 @@
                     success: function (data, textStatus, jQxhr) {
                         console.log(data);
                         if (data.deviceDetails.deviceType === 'electricity') {
+                            removeData(energyChart);
                             $.each(data.measurements, function (index, value) {
                                 addData(energyChart, value.created_at, value.amount);
                             });
                         } else if (data.deviceDetails.deviceType === 'gas') {
+                            removeData(gasChart);
                             $.each(data.measurements, function (index, value) {
                                 addData(gasChart, value.created_at, value.amount);
                             });
@@ -97,6 +101,12 @@
                 });
             }
 
+            /**
+             * Publish a new chart
+             * @param chart
+             * @param label
+             * @param data
+             */
             function addData(chart, label, data) {
                 chart.data.labels.push(label);
                 chart.data.datasets.forEach((dataset) => {
@@ -104,70 +114,27 @@
                 });
                 chart.update();
             }
+
+            /**
+             * Remove data from the already generated chart
+             * @param chart
+             */
+            function removeData(chart) {
+                console.log('running here');
+                chart.data.labels.pop();
+                chart.data.datasets.forEach((dataset) => {
+                    console.log(' running');
+                    dataset.data.pop();
+                });
+                chart.update();
+            }
         });
-
-        function getMeasurements(deviceID) {
-            getActualTariffs(deviceID);
-            $.ajax({
-                url: internalGetMeasurementsAPI + "/" + deviceID,
-                dataType: 'json',
-                type: 'get',
-                contentType: 'application/json',
-                processData: false,
-                success: function (data, textStatus, jQxhr) {
-                    const deviceType = data.device.device_types.description;
-                    const elementID = 'tbody_' + deviceType;
-                    $("#" + elementID + " tr").remove();
-                    $.each(data.measurement, function (index, value) {
-                        let usedInEuro = "";
-                        let usedInComparison = "";
-                        if (value.usedInComparisonEuro !== null && value.usedInComparisonEuro > 0) {
-                            usedInEuro = '(<span class="text-danger">' + value.usedInComparisonEuro + '</span>)';
-                        }
-
-                        if (value.usedInComparison !== null && value.usedInComparison > 0) {
-                            usedInComparison = '(<span class="text-danger">' + value.usedInComparison + '</span>)';
-                        }
-
-                        let row = "<tr>" +
-                            "<td>" + value.amount + " " + usedInComparison + "</td>" +
-                            "<td>&euro; " + value.usedEuro + " " + usedInEuro + "</td>" +
-                            "<td>" + moment(value.timestamp.date).format('DD-MM-YYYY H:mm:ss') + "</td>" +
-                            "</tr>";
-                        $("#" + elementID).append(row);
-                    });
-                },
-                error: function (jqXhr, textStatus, errorThrown) {
-                    $()
-                    console.log(textStatus);
-                }
-            });
-        }
-
-        function getActualTariffs(deviceID) {
-            $.ajax({
-                url: internalGetActualTariffsAPI + "/" + deviceID,
-                dataType: 'json',
-                type: 'get',
-                contentType: 'application/json',
-                processData: false,
-                success: function (data, textStatus, jQxhr) {
-                    const deviceType = data.device_types.description;
-                    const elementID = 'tariff_' + deviceType;
-                    const tariff = data.device_tariffs.currencies.symbol + " " + parseFloat(data.device_tariffs.amount);
-                    $("#" + elementID).text(tariff);
-                },
-                error: function (jqXhr, textStatus, errorThrown) {
-                    console.log(textStatus);
-                }
-            });
-        }
     </script>
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12">
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Live UI</h3>
+                    <h3 class="box-title">Static view</h3>
                 </div>
                 <div class="box-body">
                     <canvas id="energyChart" width="300" height="100"></canvas>

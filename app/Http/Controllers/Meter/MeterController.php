@@ -121,6 +121,10 @@ class MeterController extends Controller
             $output['measurements'][$k]['created_at'] = date('H:i:s', strtotime($m['created_at']));
         }
 
+        // Sort in reverse, to have to chronicle
+        asort($output['measurements']);
+        $output['measurements'] = array_values($output['measurements']);
+
         return response()->json($output);
     }
 
