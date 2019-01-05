@@ -5,6 +5,16 @@
         const internalStaticInterval = "{{ url('meter/api/renderDefaultMeasurements') }}";
 
         $(document).ready(function () {
+
+            function resize() {
+                console.log('running');
+                $(".avalonCanvas").outerHeight($(window).height() - $(".avalonCanvas").offset().top - Math.abs($(".avalonCanvas").outerHeight(true) - $(".avalonCanvas").outerHeight()));
+            }
+
+
+            resize();
+
+
             let energyChart = new Chart($("#energyChart"), {
                 type: 'line',
                 responsive: true,
@@ -122,9 +132,9 @@
                     </div>
                 </div>
                 <div class="box-body">
-                    <canvas id="energyChart" class="img-responsive" width="300" height="100"></canvas>
+                    <canvas id="energyChart" class="avalonCanvas"></canvas>
 
-                    <canvas id="gasChart" class="img-responsive" width="300" height="100"></canvas>
+                    <canvas id="gasChart" class="avalonCanvas"></canvas>
                 </div>
             </div>
         </div>
