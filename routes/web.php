@@ -30,8 +30,6 @@ Route::group(['middleware' => 'auth', 'namespace' => 'Meter'], function () {
     Route::get('/meter/api/getDailyBudget', 'DevicesController@getDailyBudget');
     Route::get('/meter/api/renderDefaultMeasurements/{deviceID}', 'MeterController@renderDefaultMeasurements');
     Route::get('/meter/api/getBudget/{rangeType}', 'API\MeterAPIController@budget');
-    // TEMP URL TO EXPOSE FOR DEBUGGING!
-    Route::get('/meter/api/updateStatsTable/{deviceID}', 'API\MeterAPIController@updateStatsTable');
 });
 
 Auth::routes();
