@@ -6,7 +6,7 @@
 
         $(document).ready(function () {
             let energyChart = new Chart($("#energyChart"), {
-                type: 'line',
+                type: 'bar',
                 responsive: true,
                 maintainAspectRatio: false,
                 data: {
@@ -14,12 +14,8 @@
                     datasets: [{
                         label: 'kWh',
                         data: [],
-                        backgroundColor: [
-                            'rgba(255, 99, 132, 0.2)'
-                        ],
-                        borderColor: [
-                            'rgba(255,99,132,1)'
-                        ],
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'rgba(255,99,132,1)',
                         borderWidth: 1
                     }]
                 },
@@ -35,19 +31,15 @@
             });
 
             let gasChart = new Chart($("#gasChart"), {
-                type: 'line',
+                type: 'bar',
                 responsive: true,
                 data: {
                     labels: [],
                     datasets: [{
                         label: 'm3',
                         data: [],
-                        backgroundColor: [
-                            'rgba(54, 162, 235, 0.2)'
-                        ],
-                        borderColor: [
-                            'rgba(54, 162, 235, 1)'
-                        ],
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
                         borderWidth: 1
                     }]
                 },
