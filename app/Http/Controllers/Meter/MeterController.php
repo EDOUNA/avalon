@@ -5,11 +5,10 @@ namespace App\Http\Controllers\Meter;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Meter\API\MeterAPIController;
 use App\Models\Configurations;
-use App\Models\Meter\DeviceMeasurements;
+use App\Models\Meter\DeviceMeasurementsStats;
 use App\Models\Meter\Devices;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
-use Illuminate\Support\Facades\Cache;
 use Log;
 
 class MeterController extends Controller
@@ -107,18 +106,11 @@ class MeterController extends Controller
             return response()->json(['status' => 'No deviceID found.'], 500);
         }
 
-        //$measurementInterval = $configuration->parameter;
-        $cacheKey = 'renderMeasurement_deviceID_' . $deviceID;
-        if (!Cache::has($cacheKey)) {
-            $measurements = DeviceMeasurements::with('devices', 'devices.deviceTypes', 'deviceTariffs', 'deviceTariffs.currencies')
-                ->where('device_id', $deviceID)
-                ->whereDate('created_at', Carbon::today())
-                ->orderBy('created_at', 'desc')
-                ->get()->toArray();
-            Cache::put($cacheKey, $measurements, 30);
-        } else {
-            $measurements = Cache::get($cacheKey);
-        }
+        $measurements = DeviceMeasurementsStats::with('devices', 'devices.deviceTypes', 'deviceTariffs', 'deviceTariffs.currencies')
+            ->where('device_id', $deviceID)
+            ->whereDate('created_at', Carbon::today())
+            ->orderBy('id')
+            ->get()->toArray();
 
         $output = [];
         foreach ($measurements as $k => $m) {
@@ -130,11 +122,11 @@ class MeterController extends Controller
             }
 
             $output['measurements'][$k]['amount'] = round($m['amount'], 4);
-            $output['measurements'][$k]['created_at'] = date('H:i', strtotime($m['created_at']));
+            $output['measurements'][$k]['hour'] = $m['hour'] . ':00';
         }
 
         // Sort in reverse, to have to chronicle
-        asort($output['measurements']);
+        //asort($output['measurements']);
         $output['measurements'] = array_values($output['measurements']);
 
         return response()->json($output);

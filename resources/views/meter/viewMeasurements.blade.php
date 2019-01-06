@@ -88,7 +88,7 @@
                         let amountArray = [];
                         if (data.deviceDetails.deviceType === 'electricity') {
                             $.each(data.measurements, function (index, value) {
-                                labelArray.push(value.created_at);
+                                labelArray.push(value.hour);
                                 amountArray.push(value.amount);
                             });
                             energyChart.data.labels = labelArray;
@@ -97,7 +97,7 @@
                             energyChart.update();
                         } else if (data.deviceDetails.deviceType === 'gas') {
                             $.each(data.measurements, function (index, value) {
-                                labelArray.push(value.created_at);
+                                labelArray.push(value.hour);
                                 amountArray.push(value.amount);
                             });
                             gasChart.data.labels = labelArray;
