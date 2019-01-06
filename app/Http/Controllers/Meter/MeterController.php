@@ -125,10 +125,6 @@ class MeterController extends Controller
             $output['measurements'][$k]['hour'] = $m['hour'] . ':00';
         }
 
-        // Sort in reverse, to have to chronicle
-        //asort($output['measurements']);
-        $output['measurements'] = array_values($output['measurements']);
-
         return response()->json($output);
     }
 
