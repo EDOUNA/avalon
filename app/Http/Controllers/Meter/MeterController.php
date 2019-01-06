@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Meter;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Meter\API\MeterAPIController;
 use App\Models\Configurations;
 use App\Models\Meter\DeviceMeasurements;
 use App\Models\Meter\Devices;
@@ -78,6 +79,10 @@ class MeterController extends Controller
 
             // Create a new measurement log
             $device->createMeasurement($deviceObject->id, $r);
+
+            // Update/insert a new stat row
+            $meterAPI = new MeterAPIController();
+            $meterAPI->updateStatsTable($deviceObject->id);
         }
 
         $time = Carbon::now();

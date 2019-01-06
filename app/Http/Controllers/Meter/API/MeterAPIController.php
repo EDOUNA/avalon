@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Meter\API;
 use App\Http\Controllers\Controller;
 use App\Models\Configurations;
 use App\Models\Meter\DeviceMeasurements;
+use App\Models\Meter\DeviceMeasurementsStats;
 use App\Models\Meter\Devices;
+use Carbon\Carbon;
 use Log;
 
 class MeterAPIController extends Controller
@@ -70,5 +72,44 @@ class MeterAPIController extends Controller
         }
 
         return response()->json($msg);
+    }
+
+    /**
+     * @param Int $deviceID
+     */
+    public function updateStatsTable(Int $deviceID): void
+    {
+        $measurements = DeviceMeasurements::with('devices', 'deviceTariffs')
+            ->where('device_id', $deviceID)
+            ->whereDate('created_at', Carbon::today())
+            ->get()->groupBy(function ($date) {
+                return Carbon::parse($date->created_at)->format('H');
+            })->toArray();
+
+        foreach ($measurements as $k => $m) {
+            $firstMeasurement = reset($m);
+            $lastMeasurement = end($m);
+
+            $consumed = ($lastMeasurement['amount'] - $firstMeasurement['amount']);
+
+            // Try to find already existing records
+            $statRow = DeviceMeasurementsStats::where(['device_id' => $deviceID, 'tariff_id' => $firstMeasurement['tariff_id'], 'hour' => $k])
+                ->whereDate('created_at', Carbon::today())
+                ->first();
+
+            // Add a new record if it's not yet existing
+            if (null === $statRow) {
+                $statRow = new DeviceMeasurementsStats;
+                $statRow->amount = $consumed;
+                $statRow->device_id = $deviceID;
+                $statRow->tariff_id = $deviceID;
+                $statRow->hour = $k;
+                $statRow->save();
+                continue;
+            }
+
+            $statRow->amount = $consumed;
+            $statRow->save();
+        }
     }
 }
