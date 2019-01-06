@@ -7,7 +7,6 @@ Route::middleware(['auth'])->group(function () {
     });
 });
 
-
 Route::group(['middleware' => 'auth', 'namespace' => 'Bank'], function () {
     Route::get('/bank/transactions', 'BankController@transactions');
     Route::post('/bank/transactions/updateCategory', 'TransactionsController@updateCategory');
@@ -33,4 +32,3 @@ Route::group(['middleware' => 'auth', 'namespace' => 'Meter'], function () {
 });
 
 Auth::routes();
-Route::get('/home', 'HomeController@index');
