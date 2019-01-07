@@ -30,7 +30,7 @@ class MeterAPIController extends Controller
         $msg = [];
         switch ($rangeType) {
             case 'd':
-                $daysInMonth = cal_days_in_month(CAL_GREGORIAN, date('m'), date('Y'));
+                $daysInMonth = Carbon::now()->daysInMonth();
                 $budgetPerDay = ($monthlyBudgetConfiguration / $daysInMonth);
                 $currentDay = date('d');
 
