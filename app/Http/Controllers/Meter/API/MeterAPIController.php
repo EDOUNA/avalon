@@ -66,6 +66,7 @@ class MeterAPIController extends Controller
                 break;
         }
 
+        // Add some box styling
         $msg['infoBoxClass'] = 'bg-green';
         if ($msg['budgetPercentage'] > 100) {
             $msg['infoBoxClass'] = 'bg-red';

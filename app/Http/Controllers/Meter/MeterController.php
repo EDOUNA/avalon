@@ -133,6 +133,7 @@ class MeterController extends Controller
      */
     public function viewStatic()
     {
+
         $configuration = Configurations::where('setting', 'energy_meter_default_timer_interval')->first();
         return view('meter.viewMeasurements', ['chartInterval' => $configuration->parameter]);
     }
