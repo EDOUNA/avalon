@@ -3,7 +3,7 @@
     <script type="text/javascript">
         const chartInterval = {{ $refreshInterval }};
         const rangeType = "{{ $rangeType }}";
-        const internalBudgetAPI = "{{ url('meter/api/getBudget/d') }}";
+        const internalBudgetAPI = "{{ url('meter/api/getBudget/') }}";
 
         $(document).ready(function () {
             let budgetChart = new Chart($("#budgetChart"), {
@@ -44,11 +44,12 @@
 
             function updateCharts() {
                 $.ajax({
-                    url: internalBudgetAPI,
+                    url: internalBudgetAPI + "/" + rangeType,
                     dataType: 'json',
                     type: 'get',
                     contentType: 'application/json',
                     success: function (data, textStatus, jQxhr) {
+                        console.log(data);
                         let labelArray = [];
                         let amountArray = [];
 
@@ -118,7 +119,7 @@
                     <div class="text-center">
                         <div class="btn-group">
                             <a href="{{ url('meter/budget/d') }}" class="btn btn-default" id="btnRange_d">Dag</a>
-                            <a href="{{ url('meter/budget/w') }}" class="btn btn-default" id="btnRange_w">Week</a>
+                        <!--<a href="{{ url('meter/budget/w') }}" class="btn btn-default" id="btnRange_w">Week</a>!-->
                             <a href="{{ url('meter/budget/m') }}" class="btn btn-default" id="btnRange_m">Maand</a>
                         </div>
                     </div>

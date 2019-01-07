@@ -30,7 +30,7 @@ class MeterAPIController extends Controller
         $msg = [];
         switch ($rangeType) {
             case 'd':
-                $daysInMonth = Carbon::now()->daysInMonth();
+                $daysInMonth = cal_days_in_month(CAL_GREGORIAN, date('m'), date('y'));
                 $budgetPerDay = ($monthlyBudgetConfiguration / $daysInMonth);
                 $currentDay = date('d');
 
@@ -63,6 +63,40 @@ class MeterAPIController extends Controller
             case 'w':
                 break;
             case 'm':
+                $daysInMonth = cal_days_in_month(CAL_GREGORIAN, date('m'), date('y'));
+                $budgetPerDay = ($monthlyBudgetConfiguration / $daysInMonth);
+                $currentDay = date('d');
+
+                $msg['daysRemaining'] = ($daysInMonth - $currentDay);
+                $msg['daysPercentage'] = round(100 - ($msg['daysRemaining'] / $daysInMonth) * 100);
+                $msg['monthlyBudget'] = round($monthlyBudgetConfiguration, 2);
+                $msg['budgetAllowed'] = $msg['monthlyBudget'];
+                $msg['budgetSpent'] = 0;
+                $msg['budgetCurrency'] = null;
+
+                $measurements = [];
+                foreach ($devices as $k => $d) {
+                    $device = Devices::with('deviceTariffs', 'deviceTariffs.currencies')
+                        ->where('id', $d['id'])
+                        ->first();
+
+                    $amount = DeviceMeasurementsStats::where('device_id', $d['id'])
+                        ->whereMonth('created_at', date('m'))
+                        ->whereYear('created_at', date('Y'))
+                        ->sum('amount');
+
+                    if (!isset($msg['budgetCurrency'])) {
+                        $msg['budgetCurrency'] = $device->deviceTariffs->currencies->symbol;
+                    }
+
+                    $msg['budgetSpent'] = $msg['budgetSpent'] + ($amount * $device->deviceTariffs->amount);
+                    $msg['devices'][$k]['description'] = $d['description'];
+                    $msg['devices'][$k]['amount'] = round(($amount * $device->deviceTariffs->amount), 2);
+                    $msg['devices'][$k]['currency'] = $device->deviceTariffs->currencies->symbol;
+                }
+
+                $msg['budgetSpent'] = round($msg['budgetSpent'], 2);
+                $msg['budgetPercentage'] = round(($msg['budgetSpent'] / $msg['budgetAllowed']) * 100);
                 break;
         }
 
