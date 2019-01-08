@@ -11,6 +11,14 @@ use Log;
 class DevicesController extends Controller
 {
     /**
+     * DevicesController constructor.
+     */
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
+    /**
      * @param Int $idx
      * @return object|bool
      */

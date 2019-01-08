@@ -11,6 +11,14 @@ class BankController extends Controller
     protected $paginationLimit = 50;
 
     /**
+     * BankController constructor.
+     */
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
+    /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function transactions()

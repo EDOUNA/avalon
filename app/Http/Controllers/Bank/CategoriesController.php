@@ -7,6 +7,14 @@ use App\Models\Bank\Categories;
 
 class CategoriesController extends Controller
 {
+    /**
+     * CategoriesController constructor.
+     */
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     public function index()
     {
         $categories = Categories::all();

@@ -14,6 +14,15 @@ use Log;
 
 class MeterController extends Controller
 {
+
+    /**
+     * MeterController constructor.
+     */
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
