@@ -35,6 +35,7 @@
                 runScript();
             }, chartInterval);
 
+
             function runScript() {
                 updateCharts();
 
@@ -113,7 +114,13 @@
                         </div>
                     </div>
                     <p>&nbsp;</p>
-                    <canvas id="budgetChart" class="avalonCanvas"></canvas>
+                    @if ($mobileDevice !== true)
+                        <canvas id="budgetChart"
+                                width="{{ $defaultDimensions['width'] }}"
+                                height="{{ $defaultDimensions['height'] }}"></canvas>
+                    @else
+                        <canvas id="budgetChart"></canvas>
+                    @endif
                 </div>
                 <div class="box-footer with-border">
                     <div class="text-center">

@@ -9,6 +9,7 @@ use App\Models\Meter\DeviceMeasurementsStats;
 use App\Models\Meter\Devices;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
+use Jenssegers\Agent\Agent;
 use Log;
 
 class MeterController extends Controller
@@ -133,9 +134,13 @@ class MeterController extends Controller
      */
     public function viewStatic()
     {
-
+        $agent = new Agent();
         $configuration = Configurations::where('setting', 'energy_meter_default_timer_interval')->first();
-        return view('meter.viewMeasurements', ['chartInterval' => $configuration->parameter]);
+        return view('meter.viewMeasurements', [
+            'chartInterval' => $configuration->parameter
+            , 'mobileDevice' => $agent->isMobile()
+            , 'defaultDimensions' => ['width' => 250, 'height' => 30]
+        ]);
     }
 
     /**
@@ -149,7 +154,14 @@ class MeterController extends Controller
         if (!in_array($rangeType, $validRangeTypes)) {
             throw new \Exception('Geen geldige range type mee gegeven.');
         }
+
+        $agent = new Agent();
         $configuration = Configurations::where('setting', 'energy_meter_default_timer_interval')->first();
-        return view('meter.budgetView', ['refreshInterval' => $configuration->parameter, 'rangeType' => $rangeType]);
+        return view('meter.budgetView', [
+            'refreshInterval' => $configuration->parameter
+            , 'mobileDevice' => $agent->isMobile()
+            , 'defaultDimensions' => ['width' => 200, 'height' => 50]
+            , 'rangeType' => $rangeType
+        ]);
     }
 }

@@ -115,8 +115,17 @@
                     </div>
                 </div>
                 <div class="box-body">
-                    <canvas id="energyChart" class="avalonCanvas"></canvas>
-                    <canvas id="gasChart" class="avalonCanvas"></canvas>
+                    @if ($mobileDevice !== true)
+                        <canvas id="energyChart"
+                                width="{{ $defaultDimensions['width'] }}"
+                                height="{{ $defaultDimensions['height'] }}"></canvas>
+                        <canvas id="gasChart"
+                                width="{{ $defaultDimensions['width'] }}"
+                                height="{{ $defaultDimensions['height'] }}"></canvas>
+                    @else
+                        <canvas id="energyChart"></canvas>
+                        <canvas id="gasChart"></canvas>
+                    @endif
                 </div>
             </div>
         </div>
