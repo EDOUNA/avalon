@@ -12,7 +12,7 @@ Route::group(['middleware' => 'auth', 'namespace' => 'Bank'], function () {
 
 Route::group(['middleware' => 'auth', 'namespace' => 'Meter'], function () {
     // This page serves now as the index page
-    Route::get('/', 'MeterController@viewStatic');
+    Route::get('/', 'MeterController@budget');
 
     Route::get('/meter/liveUI', 'MeterController@liveUI');
     Route::get('/meter/static', 'MeterController@viewStatic');

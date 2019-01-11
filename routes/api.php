@@ -1,18 +1,18 @@
 <?php
 
-use Illuminate\Http\Request;
+Route::group(['prefix' => 'v1', 'middleware' => ['jwt.auth', 'api-header']], function () {
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
+    // all routes to protected resources are registered here
+    Route::get('users/list', function () {
+        $users = App\User::all();
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+        $response = ['success' => true, 'data' => $users];
+        return response()->json($response, 201);
+    });
+});
+
+// Regular API routes that don't require authentication
+Route::group(['prefix' => 'v1', 'middleware' => 'api-header'], function () {
+    Route::post('user/login', 'API\UserController@login');
+    Route::post('user/register', 'API\UserController@register');
 });
