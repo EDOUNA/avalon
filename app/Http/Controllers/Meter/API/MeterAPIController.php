@@ -13,14 +13,6 @@ use Log;
 class MeterAPIController extends Controller
 {
     /**
-     * MeterAPIController constructor.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * TODO: currently only on day basis. Extend later on to support different enums, or something...
      * @param String $rangeType
      * @return \Illuminate\Http\JsonResponse
