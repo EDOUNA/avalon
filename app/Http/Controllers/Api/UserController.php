@@ -40,7 +40,8 @@ class UserController extends Controller
                 , 'data' => ['id' => $user->id
                     , 'auth_token' => $user->auth_token
                     , 'name' => $user->name
-                    , 'email' => $user->email]]
+                    , 'email' => $user->email]
+            ]
             , 201);
     }
 
@@ -101,7 +102,8 @@ class UserController extends Controller
                 , 'data' => ['name' => $user->name
                     , 'id' => $user->id
                     , 'email' => $request->email
-                    , 'auth_token' => $token]]
+                    , 'auth_token' => $token]
+            ]
             , 201);
     }
 }
