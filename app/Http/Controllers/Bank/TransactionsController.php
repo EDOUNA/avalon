@@ -9,14 +9,6 @@ use Illuminate\Http\Request;
 class TransactionsController extends Controller
 {
     /**
-     * TransactionsController constructor.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */

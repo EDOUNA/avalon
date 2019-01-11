@@ -6,9 +6,9 @@ use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use JWTAuth;
 use JWTAuthException;
-use Log;
 
 class UserController extends Controller
 {

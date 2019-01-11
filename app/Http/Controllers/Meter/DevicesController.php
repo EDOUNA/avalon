@@ -6,17 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\Configurations;
 use App\Models\Meter\DeviceMeasurements;
 use App\Models\Meter\Devices;
-use Log;
+use Illuminate\Support\Facades\Log;
 
 class DevicesController extends Controller
 {
-    /**
-     * DevicesController constructor.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
 
     /**
      * @param Int $idx

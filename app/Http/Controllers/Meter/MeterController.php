@@ -9,20 +9,11 @@ use App\Models\Meter\DeviceMeasurementsStats;
 use App\Models\Meter\Devices;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Log;
 use Jenssegers\Agent\Agent;
-use Log;
 
 class MeterController extends Controller
 {
-
-    /**
-     * MeterController constructor.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
