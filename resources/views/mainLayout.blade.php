@@ -44,6 +44,7 @@
 
     <script src="{{ asset('js/lib/pace.js') }}" type="text/javascript"></script>
     <script src="{{ asset('js/lib/jquery.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/lib/bootstrap.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('js/lib/jquery-ui.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('js/lib/moment.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('js/ff/moment/en_US.js') }}" type="text/javascript"></script>
@@ -68,18 +69,22 @@
             </a>
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
-
-                    <li class="dropdown user user-menu">
-                        <span style="cursor:default;color:#fff;padding: 15px;display: block;line-height: 20px;">
-                            <span class="hidden-xs">{{ Auth::user()->name }}</span>
-                        </span>
-                    </li>
-                    <li>
-                        <a class="nav-link" href="{{ url('logout') }}"
-                           onclick="event.preventDefault();document.getElementById('logout-form').submit();">Uitloggen</a>
-                        <form id="logout-form" action="{{ url('logout') }}" method="POST" style="display: none;">
-                            {{ csrf_field() }}
-                        </form>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                           aria-expanded="false">{{ Auth::user()->name }} <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Instellingen</a></li>
+                            <li><a href="#">Profile</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li>
+                                <a class="nav-link" href="{{ url('logout') }}"
+                                   onclick="event.preventDefault();document.getElementById('logout-form').submit();">Uitloggen</a>
+                                <form id="logout-form" action="{{ url('logout') }}" method="POST"
+                                      style="display: none;">
+                                    {{ csrf_field() }}
+                                </form>
+                            </li>
+                        </ul>
                     </li>
                 </ul>
             </div>
