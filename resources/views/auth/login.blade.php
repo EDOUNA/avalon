@@ -62,6 +62,11 @@
                                     <button type="submit" class="btn btn-primary">
                                         Inloggen
                                     </button>
+                                    <div class="pull-right">
+                                        <a href="{{ url('password/reset') }}" class="btn btn-primary">
+                                            Wachtwoord reset
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </form>
