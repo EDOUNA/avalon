@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cc3ba584612ba180f55cf80f9b2573ae",
+    "content-hash": "9704b6c94a4404c21118e07dcb9be28e",
     "packages": [
         {
             "name": "defuse/php-encryption",
@@ -1634,6 +1634,44 @@
                 "server"
             ],
             "time": "2018-11-21T21:42:43+00:00"
+        },
+        {
+            "name": "lepiaf/serialport",
+            "version": "v1.0.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/lepiaf/serialport.git",
+                "reference": "8d7041c7caf1ad222a6090eaccb6ab738e5419ed"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/lepiaf/serialport/zipball/8d7041c7caf1ad222a6090eaccb6ab738e5419ed",
+                "reference": "8d7041c7caf1ad222a6090eaccb6ab738e5419ed",
+                "shasum": ""
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "lepiaf\\SerialPort\\": "src/lepiaf/SerialPort"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Thierry Thuon",
+                    "email": "lepiaf@users.noreply.github.com"
+                }
+            ],
+            "description": "Serial port access convenience class",
+            "time": "2018-09-12T18:06:45+00:00"
         },
         {
             "name": "mobiledetect/mobiledetectlib",

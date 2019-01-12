@@ -38,14 +38,6 @@
             <stron>{{ env('APP_NAME') }}</stron>
         </a>
     </div>
-    <div class="row">
-        <div class="col-lg-12">
-            <p class="well">
-                Welkom op de Avalon app!<br/>
-            </p>
-        </div>
-    </div>
-
 
     <div class="login-box-body">
         @yield('content')
