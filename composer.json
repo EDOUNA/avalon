@@ -1,10 +1,10 @@
 {
-    "name": "laravel/laravel",
+    "name": "edouna/avalon",
     "type": "project",
-    "description": "The Laravel Framework.",
+    "description": "Avalon framework",
     "keywords": [
         "framework",
-        "laravel"
+        "avalon"
     ],
     "license": "MIT",
     "require": {
