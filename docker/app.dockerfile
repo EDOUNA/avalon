@@ -1,4 +1,4 @@
-FROM php:7.2-fpm
+FROM php:7.4-fpm
 LABEL maintainer="hello@guillaumebriday.fr"
 
 # Installing dependencies
