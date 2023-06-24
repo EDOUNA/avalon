@@ -12,7 +12,7 @@
         "fideloper/proxy": "^4.0",
         "guzzlehttp/guzzle": "~6.0",
         "jenssegers/agent": "^2.6",
-        "kingsquare/php-mt940": "^1.4",
+        "kingsquare/php-mt940": "^2.0",
         "laravel/framework": "6.20.*",
         "laravel/passport": "^7.0",
         "laravel/scout": "^6.1",
