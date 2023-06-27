@@ -30,7 +30,7 @@
         "@ttskch/select2-bootstrap4-theme": "^1.3.2",
         "adminlte-reactjs": "^1.0.6",
         "react-adminlte-dash": "^0.4.0",
-        "react-native": "^0.60.6",
+        "react-native": "^0.72.0",
         "react-native-gesture-handler": "^1.6.0",
         "react-navigation": "^3.13.0",
         "react-router-dom": "^4.3.1"
