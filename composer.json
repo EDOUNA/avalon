@@ -14,7 +14,7 @@
         "jenssegers/agent": "^2.6",
         "kingsquare/php-mt940": "^2.0",
         "laravel/framework": "6.20.*",
-        "laravel/passport": "^7.0",
+        "laravel/passport": "^11.0",
         "laravel/scout": "^10.0",
         "laravel/tinker": "^2.0",
         "lepiaf/serialport": "^1.0",
