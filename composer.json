@@ -16,7 +16,7 @@
         "laravel/framework": "6.20.*",
         "laravel/passport": "^7.0",
         "laravel/scout": "^6.1",
-        "laravel/tinker": "^1.0",
+        "laravel/tinker": "^2.0",
         "lepiaf/serialport": "^1.0",
         "tymon/jwt-auth": "dev-develop"
     },
