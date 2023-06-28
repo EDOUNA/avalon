@@ -31,7 +31,7 @@
         "adminlte-reactjs": "^1.0.6",
         "react-adminlte-dash": "^0.4.0",
         "react-native": "^0.72.0",
-        "react-native-gesture-handler": "^1.6.0",
+        "react-native-gesture-handler": "^2.0.0",
         "react-navigation": "^4.0.0",
         "react-router-dom": "^6.0.0"
     }
